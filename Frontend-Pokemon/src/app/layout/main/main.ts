@@ -9,7 +9,11 @@ import { RouterOutlet } from '@angular/router';
   template: `<shared-navbar></shared-navbar>
 
     <main class="min-h-screen">
-      <router-outlet></router-outlet>
+      <div
+        style="height: 100vh; background: #424242 url(../../../../assets/body_bg.png)"
+      >
+        <router-outlet></router-outlet>
+      </div>
     </main>
 
     <shared-footer></shared-footer>`,

@@ -8,10 +8,17 @@ export const routes: Routes = [
     component: Main,
     children: [
       {
-        path: 'list-pokemon',
+        path: 'pokedex',
+        title: 'Pokedex',
         loadComponent: () =>
-          import('./pages/list-pokemon/layout/list-pokemon').then(
-            (c) => c.ListPokemon
+          import('./pages/pokedex/layout/pokedex').then((c) => c.Pokedex),
+      },
+      {
+        path: 'categorias',
+        title: 'Categorias',
+        loadComponent: () =>
+          import('./pages/categorias/layout/categorias').then(
+            (c) => c.Categorias
           ),
       },
       {

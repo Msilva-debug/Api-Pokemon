@@ -1,0 +1,25 @@
+<div
+  class="max-w-xs bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition"
+>
+  <!-- Imagen -->
+  <img
+    [src]="pokemonSignal()?.image"
+    alt="{{ pokemonSignal()?.name | titlecase }}"
+    class="w-full h-48 object-contain bg-gray-100"
+  />
+
+  <!-- Info -->
+  <div class="p-4 text-center">
+    <h2
+      class="text-lg font-bold text-gray-800"
+      [ngStyle]="{
+        color: pokemonSignal()?.color | pipeColorName
+      }"
+    >
+      {{ pokemonSignal()?.name | titlecase }}
+    </h2>
+    <!-- <p class="text-sm text-gray-500">
+      {{ pokemonSignal()?.color | pipeColorName }}
+    </p> -->
+  </div>
+</div>

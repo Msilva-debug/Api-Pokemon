@@ -1,7 +1,9 @@
-<nav class="relative bg-primary shadow-lg bg-[url('https://img.freepik.com/vector-gratis/fondo-mosaico-rojo_1164-1008.jpg')]">
+<nav
+  class="relative bg-primary shadow-lg bg-[url('https://img.freepik.com/vector-gratis/fondo-mosaico-rojo_1164-1008.jpg')]"
+>
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
-      <div class="flex items-center">
+      <div class="flex items-center cursor-pointer" routerLink="/home">
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/9/98/International_Pokémon_logo.svg"
           alt="Pokémon Logo"
@@ -10,34 +12,15 @@
       </div>
 
       <div class="hidden sm:flex space-x-6">
+        @for (route of routes; track $index) {
         <a
-          routerLink="/home"
-          routerLinkActive="bg-secondary/20 text-accent"
+          [routerLink]="route.path"
+          routerLinkActive="bg-secondary/20 "
           class="text-accent rounded-md px-3 py-2 text-sm font-bold hover:bg-secondary/20 transition cursor-pointer"
         >
-          Home
+          {{ route.title }}
         </a>
-        <a
-          routerLink="/pokedex"
-          routerLinkActive="bg-secondary/20 text-accent"
-          class="text-accent rounded-md px-3 py-2 text-sm font-bold hover:bg-secondary/20 transition cursor-pointer"
-        >
-          Pokédex
-        </a>
-        <a
-          routerLink="/batallas"
-          routerLinkActive="bg-secondary/20 text-accent"
-          class="text-accent rounded-md px-3 py-2 text-sm font-bold hover:bg-secondary/20 transition cursor-pointer"
-        >
-          Batallas
-        </a>
-        <a
-          routerLink="/entrenadores"
-          routerLinkActive="bg-secondary/20 text-accent"
-          class="text-accent rounded-md px-3 py-2 text-sm font-bold hover:bg-secondary/20 transition cursor-pointer"
-        >
-          Entrenadores
-        </a>
+        }
       </div>
 
       <button
