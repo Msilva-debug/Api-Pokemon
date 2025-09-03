@@ -10,15 +10,11 @@ import { map, of, switchMap } from 'rxjs';
 import { PipeColorTypePokemonPipe } from '../../pipe/pipe-color-type-pokemon-pipe';
 import { PipeColorNamePipe } from '../../pipe/pipe-color-name-pipe';
 import { PipeIconTypePokemonPipe } from '../../pipe/pipe-icon-type-pokemon-pipe';
+import { TypePokemon } from '../type-pokemon/type-pokemon';
 
 @Component({
   selector: 'pokedex-card-pokemon',
-  imports: [
-    CommonModule,
-    PipeColorTypePokemonPipe,
-    PipeColorNamePipe,
-    PipeIconTypePokemonPipe,
-  ],
+  imports: [CommonModule, PipeColorNamePipe, TypePokemon],
   templateUrl: './card-pokemon.html',
   styleUrl: './card-pokemon.css',
 })

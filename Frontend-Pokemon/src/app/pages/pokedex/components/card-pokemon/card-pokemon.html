@@ -1,5 +1,5 @@
 <div
-  class="max-w-xs bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl hover:scale-110 transition cursor-pointer"
+  class="max-w-xs bg-white rounded-2xl shadow-lg overflow-hidden   "
   (click)="onPokemonClick()"
 >
   <!-- Imagen -->
@@ -21,16 +21,7 @@
     </h2>
     <div class="flex justify-center space-x-6">
       @for (type of pokemonSignal()?.types; track $index) {
-      <p
-        class="text-sm inset-shadow-sm rounded-xl"
-        [ngClass]="type | pipeColorTypePokemon"
-      >
-        {{ type }}
-        <i
-          [ngClass]="type | pipeIconTypePokemon"
-          class="fa-duotone fa-solid fa-fire"
-        ></i>
-      </p>
+      <pokedex-type-pokemon [type]="type" />
       }
     </div>
   </div>
