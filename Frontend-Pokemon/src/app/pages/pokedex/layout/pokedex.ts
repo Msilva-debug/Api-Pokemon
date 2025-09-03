@@ -1,4 +1,11 @@
-import { Component, inject, OnInit, signal, Signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  OnInit,
+  signal,
+  Signal,
+} from '@angular/core';
 import { CardPokemon } from '../components/card-pokemon/card-pokemon';
 import { PokemonService } from '../services/pokemon';
 import { Pokemon } from '../interfaces/response-pokemon';
@@ -15,7 +22,7 @@ export class Pokedex implements OnInit {
   public pokemons = signal<Pokemon[]>([]);
 
   ngOnInit(): void {
-    this.pokemonService.getPokemonList(21, 0).subscribe((response) => {
+    this.pokemonService.getPokemonList(25, 0).subscribe((response) => {
       this.pokemons.set([...response.results]);
     });
   }

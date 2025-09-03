@@ -1,12 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal, Type } from '@angular/core';
 import {
+  Name,
   Pokemon,
   ResponsePokemon,
   ResponsePokemonById,
   ResponsePokemonSpecies,
+  ResponseTypes,
+  Types,
 } from '../interfaces/response-pokemon';
-import { map, Observable } from 'rxjs';
+import { filter, forkJoin, map, Observable, of, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -36,5 +39,30 @@ export class PokemonService {
         return response.color.name;
       })
     );
+  }
+  public getPokemonTypes(types: Types[]): Observable<string[]> {
+    if (types.length === 0) return of([]);
+
+    const requests = types.map((type) =>
+      this.http.get<ResponseTypes>(type.type.url).pipe(
+        map((response: ResponseTypes) => {
+          const nameEs = response.names.find(
+            (n: Name) => n.language.name === 'es'
+          );
+          return nameEs ? nameEs.name : '';
+        })
+      )
+    );
+
+    return forkJoin(requests).pipe(
+      map((names: string[]) => names.filter((name) => !!name))
+    );
+  }
+
+  public getForkJoinCard(informacion: ResponsePokemonById) {
+    return forkJoin({
+      types: this.getPokemonTypes(informacion.types),
+      color: this.getPokemonColor(informacion.species.url),
+    });
   }
 }

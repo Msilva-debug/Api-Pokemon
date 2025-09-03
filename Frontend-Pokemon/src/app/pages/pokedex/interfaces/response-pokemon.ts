@@ -9,17 +9,40 @@ export interface Pokemon {
   name: string;
   url: string;
 }
+export interface Types {
+  type: Type;
+}
+
+export interface Type {
+  url: string;
+}
+
+export interface ResponseTypes {
+  names: Name[];
+}
+
+export interface Name {
+  name: string;
+  language: Language;
+}
+
+export interface Language {
+  name: string;
+  url: string;
+}
 
 export interface PokemonCard {
   name?: string;
   image?: string;
   color?: string;
+  types?: string[];
 }
 export interface ResponsePokemonById {
   id: number;
   name: string;
   sprites: Sprites;
   species: Species;
+  types: Types[];
 }
 
 export interface Sprites {

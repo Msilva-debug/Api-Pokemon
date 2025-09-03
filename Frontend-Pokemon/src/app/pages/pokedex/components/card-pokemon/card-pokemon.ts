@@ -1,4 +1,4 @@
-import { Component, inject, Input, input, signal } from '@angular/core';
+import { Component, effect, inject, Input, input, signal } from '@angular/core';
 import {
   Pokemon,
   PokemonCard,
@@ -19,7 +19,6 @@ export class CardPokemon {
   @Input()
   set pokemon(pokemon: Pokemon) {
     if (!pokemon?.url) return;
-
     this.pokemonService
       .getPokemonUrl(pokemon.url)
       .pipe(
@@ -28,15 +27,12 @@ export class CardPokemon {
             name: informacion.name,
             image: informacion.sprites.front_default,
           };
-          this.pokemonSignal.set(basicInfo);
 
-          return this.pokemonService
-            .getPokemonColor(informacion.species.url)
-            .pipe(
-              switchMap((color) => {
-                return of({ ...basicInfo, color });
-              })
-            );
+          return this.pokemonService.getForkJoinCard(informacion).pipe(
+            switchMap((respuesta) => {
+              return of({ ...basicInfo, ...respuesta });
+            })
+          );
         })
       )
       .subscribe((completeInfo) => {
@@ -46,4 +42,6 @@ export class CardPokemon {
   private pokemonService = inject(PokemonService);
 
   public pokemonSignal = signal<PokemonCard | null>(null);
+
+  public onPokemonClick = () => {};
 }
