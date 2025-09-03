@@ -7,7 +7,7 @@ import {
   ResponsePokemonById,
   ResponsePokemonSpecies,
   ResponseTypes,
-  Types,
+  Types
 } from '../interfaces/response-pokemon';
 import { filter, forkJoin, map, Observable, of, switchMap } from 'rxjs';
 

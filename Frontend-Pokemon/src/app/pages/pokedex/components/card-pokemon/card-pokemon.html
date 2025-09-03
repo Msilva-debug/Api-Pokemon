@@ -20,9 +20,16 @@
       {{ pokemonSignal()?.name | titlecase }}
     </h2>
     <div class="flex justify-center space-x-6">
-      @for (pokemon of pokemonSignal()?.types; track $index) {
-      <p class="text-sm text-gray-500">
-        {{ pokemon  }}
+      @for (type of pokemonSignal()?.types; track $index) {
+      <p
+        class="text-sm inset-shadow-sm rounded-xl"
+        [ngClass]="type | pipeColorTypePokemon"
+      >
+        {{ type }}
+        <i
+          [ngClass]="type | pipeIconTypePokemon"
+          class="fa-duotone fa-solid fa-fire"
+        ></i>
       </p>
       }
     </div>
