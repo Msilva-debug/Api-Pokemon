@@ -1,13 +1,9 @@
 <div
-  class="max-w-xs bg-white rounded-2xl shadow-lg overflow-hidden   "
+  class="max-w-xs bg-white rounded-2xl shadow-lg overflow-hidden"
   (click)="onPokemonClick()"
 >
   <!-- Imagen -->
-  <img
-    [src]="pokemonSignal()?.image"
-    alt="{{ pokemonSignal()?.name | titlecase }}"
-    class="w-full h-48 object-contain bg-gray-100"
-  />
+  <pokedex-image-pokemon [img]="pokemonSignal()" />
 
   <!-- Info -->
   <div class="p-4 text-center">
@@ -19,7 +15,7 @@
     >
       {{ pokemonSignal()?.name | titlecase }}
     </h2>
-    <div class="flex justify-center space-x-6">
+    <div class="flex justify-center space-x-6 items-center">
       @for (type of pokemonSignal()?.types; track $index) {
       <pokedex-type-pokemon [type]="type" />
       }
