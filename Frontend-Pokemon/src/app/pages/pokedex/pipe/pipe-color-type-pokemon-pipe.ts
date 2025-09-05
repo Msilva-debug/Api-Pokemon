@@ -24,6 +24,6 @@ export class PipeColorTypePokemonPipe implements PipeTransform {
       Acero: 'text-slate-500 shadow-md shadow-slate-200 p-1 ',
       Hada: 'text-fuchsia-500 shadow-md shadow-fuchsia-200 p-1 ',
     };
-    return colorMap[type] || 'text-black-300';
+    return colorMap[type] || 'text-black-300 shadow-md shadow-black-200 p-1';
   }
 }
