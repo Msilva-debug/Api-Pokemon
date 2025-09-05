@@ -1,5 +1,10 @@
-<img
-  [src]="img?.image"
-  alt="{{ img?.name | titlecase }}"
-  class="w-full h-48 object-contain bg-gray-100"
-/>
+<div class="w-auto relative w-48 h-48 flex items-center justify-center">
+  <img
+    [src]="img?.image"
+    alt="pokemon"
+    class="w-full h-full object-contain transition-all duration-700"
+    [class.brightness-0]="!isLoaded"
+    [class.blur-lg]="!isLoaded"
+    (load)="onImageReady()"
+  />
+</div>

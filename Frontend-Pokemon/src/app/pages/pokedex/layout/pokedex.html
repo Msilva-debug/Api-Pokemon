@@ -1,10 +1,10 @@
-<div class="pr-20 pl-20 pt-3">
-  <shared-paginator />
+<div class="px-20 py-5">
   <div
-    class="h-full overflow-y-auto h-40 border grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 pt-5"
+    class="h-full h-40 grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 pt-5"
   >
     @for (pokemon of pokemons(); track $index) {
     <pokedex-card-pokemon [pokemon]="pokemon"></pokedex-card-pokemon>
     }
   </div>
+  <shared-paginator [informacion]="informacionPaginador" />
 </div>

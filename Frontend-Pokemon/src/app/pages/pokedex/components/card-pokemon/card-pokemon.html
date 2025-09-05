@@ -1,5 +1,5 @@
 <div
-  class="max-w-xs bg-white rounded-2xl shadow-lg overflow-hidden"
+  class="h-full  bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-110 transition cursor-pointer"
   (click)="onPokemonClick()"
 >
   <!-- Imagen -->
@@ -17,7 +17,13 @@
     </h2>
     <div class="flex justify-center space-x-6 items-center">
       @for (type of pokemonSignal()?.types; track $index) {
-      <pokedex-type-pokemon [type]="type" />
+      <pokedex-type-pokemon
+        [type]="type"
+        class="opacity-0 animate-domino"
+        [ngStyle]="{
+          animationDelay: $index * 200 + 'ms'
+        }"
+      />
       }
     </div>
   </div>

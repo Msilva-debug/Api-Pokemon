@@ -11,22 +11,20 @@ import { PokemonService } from '../services/pokemon';
 import { Pokemon } from '../interfaces/response-pokemon';
 import { CommonModule } from '@angular/common';
 import { Paginator } from '../../../shared/components/paginator/paginator';
-import { Loading } from '../../../shared/components/loading/loading';
+import { InformacionPaginador } from '../../../shared/components/interfaces/Paginador';
 
 @Component({
-  selector: 'app-pokedex',
-  imports: [CardPokemon, CommonModule, Paginator, Loading],
+  imports: [CardPokemon, CommonModule, Paginator],
   templateUrl: './pokedex.html',
   styleUrl: './pokedex.css',
 })
 export class Pokedex implements OnInit {
   private pokemonService = inject(PokemonService);
   public pokemons = signal<Pokemon[]>([]);
-
+  public informacionPaginador!: InformacionPaginador;
   ngOnInit(): void {
     this.pokemonService.getPokemonList(21, 0).subscribe((response) => {
       this.pokemons.set([...response.results]);
     });
   }
-  
 }

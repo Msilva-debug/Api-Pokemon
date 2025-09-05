@@ -1,13 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { PokemonCard } from '../../interfaces/response-pokemon';
-import { TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'pokedex-image-pokemon',
-  imports: [TitleCasePipe],
+  imports: [],
   templateUrl: './image-pokemon.html',
-  styleUrl: './image-pokemon.css',
 })
 export class ImagePokemon {
   @Input() img?: PokemonCard | null;
+  public isLoaded = false;
+  onImageReady = () => {
+    this.isLoaded = true;
+  };
 }

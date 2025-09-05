@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { InformacionPaginador } from '../interfaces/Paginador';
 
 @Component({
   selector: 'shared-paginator',
   imports: [],
   templateUrl: './paginator.html',
-  styleUrl: './paginator.css'
+  styleUrl: './paginator.css',
 })
 export class Paginator {
-
+  @Input() informacion!: InformacionPaginador;
 }

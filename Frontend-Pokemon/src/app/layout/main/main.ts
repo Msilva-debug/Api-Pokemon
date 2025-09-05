@@ -8,10 +8,8 @@ import { RouterOutlet } from '@angular/router';
   imports: [Footer, Navbar, RouterOutlet],
   template: `<shared-navbar></shared-navbar>
 
-    <main class="min-h-screen">
-      <div
-        style="height: 100vh; background: #424242 url(../../../../assets/body_bg.png)"
-      >
+    <main class="h-full min-h-screen" style="background-color: #28639bff;">
+      <div class="h-full ">
         <router-outlet></router-outlet>
       </div>
     </main>
