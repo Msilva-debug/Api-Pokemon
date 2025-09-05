@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, output, Output } from '@angular/core';
 import { InformacionPaginador } from '../interfaces/Paginador';
 
 @Component({
@@ -9,4 +9,5 @@ import { InformacionPaginador } from '../interfaces/Paginador';
 })
 export class Paginator {
   @Input() informacion!: InformacionPaginador;
+  cambiarPagina = output<'anterior' | 'siguiente'>();
 }

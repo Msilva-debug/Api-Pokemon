@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   effect,
   inject,
   OnInit,
@@ -19,12 +20,49 @@ import { InformacionPaginador } from '../../../shared/components/interfaces/Pagi
   styleUrl: './pokedex.css',
 })
 export class Pokedex implements OnInit {
-  private pokemonService = inject(PokemonService);
+  public pokemonService = inject(PokemonService);
   public pokemons = signal<Pokemon[]>([]);
-  public informacionPaginador!: InformacionPaginador;
+  public informacionPaginador = signal<InformacionPaginador>({
+    inicio: 10,
+    final: 10,
+    total: 10,
+    offset: 0,
+    limit: 21,
+    anteriorUrl: '',
+    siguienteUrl: '',
+    actualUrl: 'https://pokeapi.co/api/v2/pokemon/?limit=21&offset=0',
+  });
+
   ngOnInit(): void {
-    this.pokemonService.getPokemonList(21, 0).subscribe((response) => {
-      this.pokemons.set([...response.results]);
-    });
+    this.getPokemonList();
   }
+  getPokemonList = () => {
+    this.pokemonService
+      .getPokemonList(this.informacionPaginador().actualUrl!)
+      .subscribe((response) => {
+        this.informacionPaginador.update((info) => ({
+          ...info,
+          siguienteUrl: response.next,
+          anteriorUrl: response.previous,
+          total: response.count,
+        }));
+        this.pokemons.set([...response.results]);
+      });
+  };
+
+  cambiarPagina = (accion: string) => {
+    if (accion === 'anterior')
+      this.informacionPaginador.update((info) => ({
+        ...info,
+        actualUrl: info.anteriorUrl,
+      }));
+
+    if (accion === 'siguiente')
+      this.informacionPaginador.update((info) => ({
+        ...info,
+        actualUrl: info.siguienteUrl,
+      }));
+    this.pokemons.set([]);
+    this.getPokemonList();
+  };
 }

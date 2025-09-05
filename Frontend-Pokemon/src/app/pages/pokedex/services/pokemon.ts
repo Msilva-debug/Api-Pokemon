@@ -7,7 +7,7 @@ import {
   ResponsePokemonById,
   ResponsePokemonSpecies,
   ResponseTypes,
-  Types
+  Types,
 } from '../interfaces/response-pokemon';
 import { filter, forkJoin, map, Observable, of, switchMap } from 'rxjs';
 
@@ -15,18 +15,12 @@ import { filter, forkJoin, map, Observable, of, switchMap } from 'rxjs';
   providedIn: 'root',
 })
 export class PokemonService {
-  private apiUrl = 'https://pokeapi.co/api/v2/pokemon/';
   private http = inject(HttpClient);
 
   constructor() {}
 
-  public getPokemonList(
-    limit: number,
-    offset: number
-  ): Observable<ResponsePokemon> {
-    return this.http.get<ResponsePokemon>(
-      `${this.apiUrl}?limit=${limit}&offset=${offset}`
-    );
+  public getPokemonList(url: string): Observable<ResponsePokemon> {
+    return this.http.get<ResponsePokemon>(url);
   }
 
   public getPokemonUrl(url: string): Observable<ResponsePokemonById> {

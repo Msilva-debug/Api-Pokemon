@@ -6,5 +6,8 @@
     <pokedex-card-pokemon [pokemon]="pokemon"></pokedex-card-pokemon>
     }
   </div>
-  <shared-paginator [informacion]="informacionPaginador" />
+  <shared-paginator
+    (cambiarPagina)="cambiarPagina($event)"
+    [informacion]="informacionPaginador()"
+  />
 </div>

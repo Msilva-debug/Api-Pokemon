@@ -1,7 +1,10 @@
 export interface InformacionPaginador {
-  inicio: string;
-  final: string;
-  total: string;
-  previa: string;
-  siguiente: string;
+  inicio: number;
+  final: number;
+  total: number;
+  offset: number;
+  limit: number;
+  anteriorUrl?: string;
+  actualUrl?: string;
+  siguienteUrl?: string;
 }
