@@ -12,9 +12,10 @@ import { RouterOutlet } from '@angular/router';
       <div class="h-full ">
         <router-outlet></router-outlet>
       </div>
+      <shared-footer></shared-footer>
     </main>
 
-    <shared-footer></shared-footer>`,
+    `,
   styles: ``,
 })
 export class Main {}
