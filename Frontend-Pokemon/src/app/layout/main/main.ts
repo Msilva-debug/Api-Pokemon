@@ -8,12 +8,13 @@ import { RouterOutlet } from '@angular/router';
   imports: [Footer, Navbar, RouterOutlet],
   template: `<shared-navbar></shared-navbar>
 
-    <main class="h-full min-h-screen" style="background-color: #28639bff;">
-      <div class="h-full ">
-        <router-outlet></router-outlet>
-      </div>
-      <shared-footer></shared-footer>
-    </main>
+<main class="flex flex-col min-h-screen bg-[#28639b]">
+  <div class="flex-1">
+    <router-outlet></router-outlet>
+  </div>
+
+  <shared-footer class="mt-auto"></shared-footer>
+</main>
 
     `,
   styles: ``,
