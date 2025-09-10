@@ -12,5 +12,5 @@ export class Navbar {
   public routes = routes
     .map((route) => route.children ?? [])
     .flat()
-    .filter((route) => route.path != '');
+    .filter((route) => route.data?.['showNavbar']);
 }

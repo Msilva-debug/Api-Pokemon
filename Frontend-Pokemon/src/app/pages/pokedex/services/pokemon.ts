@@ -8,8 +8,9 @@ import {
   ResponsePokemonSpecies,
   ResponseTypes,
   Types,
-} from '../interfaces/response-pokemon';
+} from '../interfaces/pokemon';
 import { filter, forkJoin, map, Observable, of, switchMap } from 'rxjs';
+import { InformacionPaginador } from '../../../shared/components/interfaces/Paginador';
 
 @Injectable({
   providedIn: 'root',
@@ -17,10 +18,47 @@ import { filter, forkJoin, map, Observable, of, switchMap } from 'rxjs';
 export class PokemonService {
   private http = inject(HttpClient);
 
+  public informacionPaginador = signal<InformacionPaginador>({
+    inicio: 10,
+    final: 10,
+    total: 10,
+    offset: 0,
+    limit: 21,
+    anteriorUrl: '',
+    siguienteUrl: '',
+    actualUrl: 'https://pokeapi.co/api/v2/pokemon/?limit=21&offset=0',
+  });
+  public pokemons = signal<Pokemon[]>([]);
+
   constructor() {}
 
-  public getPokemonList(url: string): Observable<ResponsePokemon> {
-    return this.http.get<ResponsePokemon>(url);
+  public getPokemonList() {
+    this.http
+      .get<ResponsePokemon>(this.informacionPaginador().actualUrl!)
+      .subscribe((response) => {
+        this.informacionPaginador.update((info) => ({
+          ...info,
+          siguienteUrl: response.next,
+          anteriorUrl: response.previous,
+          total: response.count,
+        }));
+        this.pokemons.set([...response.results]);
+      });
+  }
+
+  public cambiarPagina(accion: string) {
+    if (accion === 'anterior')
+      this.informacionPaginador.update((info) => ({
+        ...info,
+        actualUrl: info.anteriorUrl,
+      }));
+
+    if (accion === 'siguiente')
+      this.informacionPaginador.update((info) => ({
+        ...info,
+        actualUrl: info.siguienteUrl,
+      }));
+    this.pokemons.set([]);
   }
 
   public getPokemonUrl(url: string): Observable<ResponsePokemonById> {

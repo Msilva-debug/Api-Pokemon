@@ -1,11 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { CategoriaService } from '../services/categorias';
+import { ICategorias } from '../interfaces/categorias';
+import { CardCategoria } from '../components/card-categoria/card-categoria';
 
 @Component({
-  selector: 'app-categorias',
-  imports: [],
+  imports: [CardCategoria],
   templateUrl: './categorias.html',
-  styleUrl: './categorias.css'
+  styleUrl: './categorias.css',
 })
-export class Categorias {
+export class Categorias implements OnInit {
+  private categoriaService = inject(CategoriaService);
+  private categorias = signal<ICategorias[]>([]);
+  public computedCategorias = computed(() => this.categorias());
 
+  ngOnInit(): void {
+    this.categoriaService
+      .getCategoriasList()
+      .subscribe((response) => this.categorias.set(response));
+  }
 }

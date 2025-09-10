@@ -8,10 +8,23 @@ export const routes: Routes = [
     component: Main,
     children: [
       {
+        path: 'pokedex/:id',
+        loadComponent: () =>
+          import('./pages/home/layout/home').then((c) => c.Home),
+        data: { showNavbar: false },
+      },
+      {
         path: 'pokedex',
         title: 'Pokedex',
         loadComponent: () =>
           import('./pages/pokedex/layout/pokedex').then((c) => c.Pokedex),
+        data: { showNavbar: true },
+      },
+      {
+        path: 'categoria/:path',
+        loadComponent: () =>
+          import('./pages/pokedex/layout/pokedex').then((c) => c.Pokedex),
+        data: { showNavbar: false },
       },
       {
         path: 'categorias',
@@ -20,11 +33,13 @@ export const routes: Routes = [
           import('./pages/categorias/layout/categorias').then(
             (c) => c.Categorias
           ),
+        data: { showNavbar: true },
       },
       {
         path: '',
         loadComponent: () =>
           import('./pages/home/layout/home').then((c) => c.Home),
+        data: { showNavbar: false },
       },
     ],
   },

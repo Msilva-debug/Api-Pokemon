@@ -3,7 +3,7 @@ import {
   Pokemon,
   PokemonCard,
   ResponsePokemonById,
-} from '../../interfaces/response-pokemon';
+} from '../../interfaces/pokemon';
 import { CommonModule, JsonPipe } from '@angular/common';
 import { PokemonService } from '../../services/pokemon';
 import { map, of, switchMap } from 'rxjs';

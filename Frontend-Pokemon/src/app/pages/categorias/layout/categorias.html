@@ -1,1 +1,7 @@
-<p>categorias works!</p>
+<div
+  class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4  gap-6 p-6"
+>
+  @for (categoria of computedCategorias(); track $index) {
+  <categorias-card-categoria [categoria]="categoria" />
+  }
+</div>
