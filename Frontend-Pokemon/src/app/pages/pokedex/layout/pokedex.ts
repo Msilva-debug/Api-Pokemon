@@ -3,6 +3,7 @@ import {
   computed,
   effect,
   inject,
+  OnDestroy,
   OnInit,
   signal,
   Signal,
@@ -20,25 +21,40 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './pokedex.html',
   styleUrl: './pokedex.css',
 })
-export class Pokedex implements OnInit {
+export class Pokedex implements OnInit, OnDestroy {
+  ngOnDestroy(): void {
+    this.pokemonService.pokemons.set([]);
+  }
   public pokemonService = inject(PokemonService);
   public pokemons = computed(() => this.pokemonService.pokemons());
   private routes = inject(ActivatedRoute);
   public informacionPaginador = computed(() =>
     this.pokemonService.informacionPaginador()
   );
+  public informacionPaginadorPokedex = signal<InformacionPaginador>({
+    inicio: 10,
+    final: 10,
+    total: 10,
+    offset: 0,
+    limit: 21,
+    anteriorUrl: '',
+    siguienteUrl: '',
+    actualUrl: 'https://pokeapi.co/api/v2/pokemon/?limit=21&offset=0',
+  });
   private categoriaId: string | null = null;
   ngOnInit(): void {
     this.routes.paramMap.subscribe((params) => {
       if (params.get('path')) {
         this.categoriaId = params.get('path');
-        this.pokemonService.categoriaId.set(true);
+        this.pokemonService.isCategoria.set(true);
         if (!!this.categoriaId) {
           this.getPokemonListCategoria();
           return;
         }
       }
-
+      this.pokemonService.informacionPaginador.set(
+        this.informacionPaginadorPokedex()
+      );
       this.getPokemonList();
     });
   }
@@ -46,12 +62,10 @@ export class Pokedex implements OnInit {
     this.pokemonService.getPokemonList();
   };
   getPokemonListCategoria = () => {
-    // this.pokemonService.getPokemonListCategoria();
+    this.pokemonService.getPokemonListCategoria();
   };
 
   cambiarPagina = (accion: string) => {
-    console.log('Estoy intentanod cambiar pagina: ')
     this.pokemonService.cambiarPagina(accion);
-    this.getPokemonList();
   };
 }

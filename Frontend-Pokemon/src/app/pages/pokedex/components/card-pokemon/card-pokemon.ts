@@ -31,11 +31,9 @@ export class CardPokemon {
             image: informacion.sprites.front_default,
           };
 
-          return this.pokemonService.getForkJoinCard(informacion).pipe(
-            switchMap((respuesta) => {
-              return of({ ...basicInfo, ...respuesta });
-            })
-          );
+          return this.pokemonService
+            .getForkJoinCard(informacion)
+            .pipe(map((respuesta) => ({ ...basicInfo, ...respuesta })));
         })
       )
       .subscribe((completeInfo) => {

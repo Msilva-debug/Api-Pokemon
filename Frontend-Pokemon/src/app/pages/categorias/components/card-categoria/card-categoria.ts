@@ -42,8 +42,6 @@ export class CardCategoria implements OnInit {
         }),
         map((response) => {
           return {
-            pokemons: response.pokemon,
-            name: response.names?.find((r) => r.language.name === 'es'),
             image:
               response.sprites?.['generation-viii']?.['sword-shield']
                 ?.name_icon,
@@ -55,11 +53,10 @@ export class CardCategoria implements OnInit {
       });
   }
   filterCategoria = () => {
-    // this.pokemonService.setPokemonsCategoria(this.categoriasSignal().pokemons);
-    // this.router.navigate([
-    //   'home',
-    //   'categoria',
-    //   this.categoriasSignal().name?.name,
-    // ]);
+    this.router.navigate([
+      'home',
+      'categoria',
+      this.categoriasSignal().name?.name,
+    ]);
   };
 }
