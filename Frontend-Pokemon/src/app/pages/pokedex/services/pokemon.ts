@@ -42,7 +42,6 @@ export class PokemonService {
     return res;
   }
 
-
   public setPokemonsCategoria(pokemons: Pokemon[]) {
     localStorage.setItem('pokemons', JSON.stringify(pokemons));
 
@@ -82,7 +81,10 @@ export class PokemonService {
       this.pokemons.set([]);
       return;
     }
+    this.setPokemons(data);
+  }
 
+  public setPokemons(data: any) {
     const allPokemons: Pokemon[] = JSON.parse(data);
 
     const info = this.informacionPaginador();
