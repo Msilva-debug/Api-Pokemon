@@ -31,7 +31,7 @@ export class Pokedex implements OnInit, OnDestroy {
   public informacionPaginador = computed(() =>
     this.pokemonService.informacionPaginador()
   );
-  public informacionPaginadorPokedex = signal<InformacionPaginador>({
+  public informacionPaginadorPokedex = <InformacionPaginador>({
     inicio: 10,
     final: 10,
     total: 10,
@@ -41,19 +41,16 @@ export class Pokedex implements OnInit, OnDestroy {
     siguienteUrl: '',
     actualUrl: 'https://pokeapi.co/api/v2/pokemon/?limit=21&offset=0',
   });
-  private categoriaId: string | null = null;
   ngOnInit(): void {
     this.routes.paramMap.subscribe((params) => {
       if (params.get('path')) {
-        this.categoriaId = params.get('path');
+        this.pokemonService.nombreCategoria.set(params.get('path'));
         this.pokemonService.isCategoria.set(true);
-        if (!!this.categoriaId) {
-          this.getPokemonListCategoria();
-          return;
-        }
+        this.getPokemonListCategoria();
+        return;
       }
       this.pokemonService.informacionPaginador.set(
-        this.informacionPaginadorPokedex()
+        this.informacionPaginadorPokedex
       );
       this.getPokemonList();
     });

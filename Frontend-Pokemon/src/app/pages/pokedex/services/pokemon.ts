@@ -11,12 +11,14 @@ import {
 } from '../interfaces/pokemon';
 import { forkJoin, map, Observable, of } from 'rxjs';
 import { InformacionPaginador } from '../../../shared/components/interfaces/Paginador';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PokemonService {
   private http = inject(HttpClient);
+  private router = inject(Router);
 
   public informacionPaginador = signal<InformacionPaginador>({
     inicio: 1,
@@ -28,9 +30,11 @@ export class PokemonService {
     siguienteUrl: '',
     actualUrl: 'https://pokeapi.co/api/v2/pokemon/?limit=21&offset=0',
   });
+  
 
   public pokemons = signal<Pokemon[]>([]);
   public isCategoria = signal(false);
+  public nombreCategoria = signal<string | null>('');
 
   constructor() {}
 
@@ -76,7 +80,9 @@ export class PokemonService {
   }
 
   public getPokemonListCategoria() {
-    const data = localStorage.getItem('pokemons');
+    const nombreCategoria = this.nombreCategoria();
+    if (!localStorage.getItem(nombreCategoria!)) this.router.navigate(['home', 'pokedex']);
+    const data = localStorage.getItem(nombreCategoria!);
     if (!data) {
       this.pokemons.set([]);
       return;

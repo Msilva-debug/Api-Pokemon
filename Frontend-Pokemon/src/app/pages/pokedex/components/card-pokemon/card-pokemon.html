@@ -1,22 +1,22 @@
 <div
-  class="h-full  bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-110 transition cursor-pointer"
+  class="h-full bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-110 transition cursor-pointer"
   (click)="onPokemonClick()"
 >
   <!-- Imagen -->
-  <pokedex-image-pokemon [img]="pokemonSignal()" />
+  <pokedex-image-pokemon [img]="computedPokemonSignal()" />
 
   <!-- Info -->
   <div class="p-4 text-center">
     <h2
       class="text-lg font-bold text-gray-800"
       [ngStyle]="{
-        color: pokemonSignal()?.color | pipeColorName
+        color: computedPokemonSignal()?.color | pipeColorName
       }"
     >
-      {{ pokemonSignal()?.name | titlecase }}
+      {{ computedPokemonSignal()?.name | titlecase }}
     </h2>
     <div class="flex justify-center space-x-6 items-center">
-      @for (type of pokemonSignal()?.types; track $index) {
+      @for (type of computedPokemonSignal()?.types; track $index) {
       <pokedex-type-pokemon
         [type]="type"
         class="opacity-0 animate-domino"

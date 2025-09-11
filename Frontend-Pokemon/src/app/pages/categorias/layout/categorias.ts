@@ -8,14 +8,9 @@ import { CardCategoria } from '../components/card-categoria/card-categoria';
   templateUrl: './categorias.html',
   styleUrl: './categorias.css',
 })
-export class Categorias implements OnInit {
+export class Categorias {
   private categoriaService = inject(CategoriaService);
-  private categorias = signal<ICategorias[]>([]);
-  public computedCategorias = computed(() => this.categorias());
-
-  ngOnInit(): void {
-    this.categoriaService
-      .getCategoriasList()
-      .subscribe((response) => this.categorias.set(response));
-  }
+  public computedCategorias = computed(() =>
+    this.categoriaService.computedCategoriasInfo()
+  );
 }

@@ -22,41 +22,15 @@ import { Router } from '@angular/router';
   templateUrl: './card-categoria.html',
   styles: ``,
 })
-export class CardCategoria implements OnInit {
-  @Input() categoria!: ICategorias;
-  private categoriaService = inject(CategoriaService);
+export class CardCategoria {
+  @Input() categoria!: ICardCategoria;
   private router = inject(Router);
-  private pokemonService = inject(PokemonService);
-  private categoriasSignal = signal<ICardCategoria>({} as ICardCategoria);
-  public categoriasComputed = computed(() => this.categoriasSignal());
 
-  ngOnInit(): void {
-    this.categoriaService
-      .getCategoriaUrl(this.categoria.url!)
-      .pipe(
-        filter((response) => {
-          return (
-            response.sprites?.['generation-viii']?.['sword-shield']
-              ?.name_icon !== null
-          );
-        }),
-        map((response) => {
-          return {
-            image:
-              response.sprites?.['generation-viii']?.['sword-shield']
-                ?.name_icon,
-          } as ICardCategoria;
-        })
-      )
-      .subscribe((response) => {
-        this.categoriasSignal.set(response);
-      });
-  }
   filterCategoria = () => {
     this.router.navigate([
       'home',
       'categoria',
-      this.categoriasSignal().name?.name,
+      this.categoria.name?.name!.toLowerCase(),
     ]);
   };
 }

@@ -1,12 +1,12 @@
-@if (categoriasComputed().image) {
+@if (categoria.image) {
 
 <div
   (click)="filterCategoria()"
   class="rounded-2xl shadow-lg overflow-hidden cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-2xl bg-white"
 >
   <img
-    [src]="categoriasComputed().image"
-    alt="{{ categoriasComputed().name }}"
+    [src]="categoria.image"
+    alt="{{ categoria.name }}"
     class="w-full h-32 p-4"
   />
 </div>

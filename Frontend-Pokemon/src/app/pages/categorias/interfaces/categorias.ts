@@ -7,14 +7,14 @@ export interface ResponseCategorias {
 
 export interface ICategorias {
   name?: string;
-  url?: string;
+  url: string;
 }
 
 export interface ICardCategoria {
   id?: number;
   name?: Name;
   image?: string;
-  pokemons: Pokemon[]
+  pokemons?: Pokemon[]
 }
 interface Name{
   name:string;

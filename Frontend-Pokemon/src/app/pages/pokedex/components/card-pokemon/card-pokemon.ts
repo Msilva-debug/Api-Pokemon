@@ -1,4 +1,4 @@
-import { Component, effect, inject, Input, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, Input, input, signal } from '@angular/core';
 import {
   Pokemon,
   PokemonCard,
@@ -42,7 +42,8 @@ export class CardPokemon {
   }
   private pokemonService = inject(PokemonService);
 
-  public pokemonSignal = signal<PokemonCard | null>(null);
+  private pokemonSignal = signal<PokemonCard | null>(null);
+  public computedPokemonSignal = computed(() => this.pokemonSignal())
 
   public onPokemonClick = () => {};
 }
