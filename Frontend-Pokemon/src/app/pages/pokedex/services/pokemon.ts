@@ -1,5 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal, Type } from '@angular/core';
+import {
+  effect,
+  inject,
+  Injectable,
+  OnInit,
+  signal,
+  Type,
+} from '@angular/core';
 import {
   Name,
   Pokemon,
@@ -17,7 +24,6 @@ import { InformacionPaginador } from '../../../shared/components/interfaces/Pagi
 })
 export class PokemonService {
   private http = inject(HttpClient);
-
   public informacionPaginador = signal<InformacionPaginador>({
     inicio: 10,
     final: 10,
@@ -29,8 +35,12 @@ export class PokemonService {
     actualUrl: 'https://pokeapi.co/api/v2/pokemon/?limit=21&offset=0',
   });
   public pokemons = signal<Pokemon[]>([]);
+  public categoriaId = signal(false);
 
-  constructor() {}
+  constructor() {
+    // if (!this.categoriaId) return;
+    // this.getPokemonListCategoria();
+  }
 
   public getPokemonList() {
     this.http

@@ -1,3 +1,5 @@
+import { Pokemon } from "../../pokedex/interfaces/pokemon";
+
 export interface ResponseCategorias {
   count: number;
   results: ICategorias[];
@@ -10,8 +12,12 @@ export interface ICategorias {
 
 export interface ICardCategoria {
   id?: number;
-  name?: string;
+  name?: Name;
   image?: string;
+  pokemons: Pokemon[]
+}
+interface Name{
+  name:string;
 }
 export interface ResponseCategoriaById {
   id?: number;
@@ -26,7 +32,7 @@ export interface Generation {
   url: string;
 }
 
-export interface Pokemon {
+export interface PokemonCategoria {
   pokemon: Generation;
   slot: number;
 }

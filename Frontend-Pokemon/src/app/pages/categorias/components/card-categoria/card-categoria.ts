@@ -13,6 +13,8 @@ import {
 } from '../../interfaces/categorias';
 import { CategoriaService } from '../../services/categorias';
 import { filter, map, tap } from 'rxjs';
+import { PokemonService } from '../../../pokedex/services/pokemon';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'categorias-card-categoria',
@@ -23,6 +25,8 @@ import { filter, map, tap } from 'rxjs';
 export class CardCategoria implements OnInit {
   @Input() categoria!: ICategorias;
   private categoriaService = inject(CategoriaService);
+  private router = inject(Router);
+  private pokemonService = inject(PokemonService);
   private categoriasSignal = signal<ICardCategoria>({} as ICardCategoria);
   public categoriasComputed = computed(() => this.categoriasSignal());
 
@@ -37,13 +41,12 @@ export class CardCategoria implements OnInit {
           );
         }),
         map((response) => {
-          console.log(response);
-
-          const image =
-            response.sprites?.['generation-viii']?.['sword-shield']?.name_icon;
-
           return {
-            image,
+            pokemons: response.pokemon,
+            name: response.names?.find((r) => r.language.name === 'es'),
+            image:
+              response.sprites?.['generation-viii']?.['sword-shield']
+                ?.name_icon,
           } as ICardCategoria;
         })
       )
@@ -52,6 +55,11 @@ export class CardCategoria implements OnInit {
       });
   }
   filterCategoria = () => {
-    console.log('Tamo activo');
+    // this.pokemonService.setPokemonsCategoria(this.categoriasSignal().pokemons);
+    // this.router.navigate([
+    //   'home',
+    //   'categoria',
+    //   this.categoriasSignal().name?.name,
+    // ]);
   };
 }
