@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { Main } from './layout/main/main';
 import { Auth } from './layout/auth/auth';
+import { Pokedex } from './pages/pokedex/layout/pokedex';
+import { Categorias } from './pages/categorias/layout/categorias';
 
 export const routes: Routes = [
   {
@@ -8,31 +10,20 @@ export const routes: Routes = [
     component: Main,
     children: [
       {
-        path: 'pokedex/:id',
-        loadComponent: () =>
-          import('./pages/home/layout/home').then((c) => c.Home),
-        data: { showNavbar: false },
-      },
-      {
         path: 'pokedex',
         title: 'Pokedex',
-        loadComponent: () =>
-          import('./pages/pokedex/layout/pokedex').then((c) => c.Pokedex),
+        component: Pokedex,
+        loadChildren: () =>
+          import('./pages/pokedex/pokedex.routes').then((r) => r.routes),
         data: { showNavbar: true },
       },
-      {
-        path: 'categoria/:path',
-        loadComponent: () =>
-          import('./pages/pokedex/layout/pokedex').then((c) => c.Pokedex),
-        data: { showNavbar: false },
-      },
+      
       {
         path: 'categorias',
         title: 'Categorias',
-        loadComponent: () =>
-          import('./pages/categorias/layout/categorias').then(
-            (c) => c.Categorias
-          ),
+        component: Categorias,
+        loadChildren: () =>
+          import('./pages/categorias/categorias.routes').then((r) => r.routes),
         data: { showNavbar: true },
       },
       {
@@ -41,11 +32,35 @@ export const routes: Routes = [
           import('./pages/home/layout/home').then((c) => c.Home),
         data: { showNavbar: false },
       },
+      {
+        path: '**',
+        redirectTo: 'notFound',
+        pathMatch: 'full',
+      },
     ],
   },
   {
     path: 'auth',
     component: Auth,
+    children: [
+      {
+        path: '**',
+        redirectTo: 'notFound',
+        pathMatch: 'full',
+      },
+    ],
   },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
+  {
+    path: '**',
+    redirectTo: 'notFound',
+    pathMatch: 'full',
+  },
+  {
+    path: 'notFound',
+    loadComponent: () =>
+      import('./shared/components/page-not-found/page-not-found').then(
+        (c) => c.PageNotFound
+      ),
+  },
 ];

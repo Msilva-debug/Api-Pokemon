@@ -29,7 +29,7 @@ export class CardCategoria {
   filterCategoria = () => {
     this.router.navigate([
       'home',
-      'categoria',
+      'categorias',
       this.categoria.name?.name!.toLowerCase(),
     ]);
   };

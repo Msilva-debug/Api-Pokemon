@@ -81,7 +81,6 @@ export class PokemonService {
 
   public getPokemonListCategoria() {
     const nombreCategoria = this.nombreCategoria();
-    if (!localStorage.getItem(nombreCategoria!)) this.router.navigate(['home', 'pokedex']);
     const data = localStorage.getItem(nombreCategoria!);
     if (!data) {
       this.pokemons.set([]);
