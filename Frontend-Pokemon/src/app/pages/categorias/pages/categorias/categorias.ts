@@ -6,7 +6,6 @@ import { CardCategoria } from '../../components/card-categoria/card-categoria';
 @Component({
   imports: [CardCategoria],
   templateUrl: './categorias.html',
-  styleUrl: './categorias.css',
 })
 export class Categorias {
   private categoriaService = inject(CategoriaService);

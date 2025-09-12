@@ -5,7 +5,6 @@ import { InformacionPaginador } from '../interfaces/Paginador';
   selector: 'shared-paginator',
   imports: [],
   templateUrl: './paginator.html',
-  styleUrl: './paginator.css',
 })
 export class Paginator {
   @Input() informacion!: InformacionPaginador;
