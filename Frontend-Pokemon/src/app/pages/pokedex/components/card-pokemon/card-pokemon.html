@@ -8,14 +8,14 @@
   <!-- Info -->
   <div class="p-4 text-center">
     <h2
-      class="text-lg font-bold text-gray-800"
+      class="text-sm d text-gray-800"
       [ngStyle]="{
         color: computedPokemonSignal()?.color | pipeColorName
       }"
     >
       {{ computedPokemonSignal()?.name | titlecase }}
     </h2>
-    <div class="flex justify-center space-x-6 items-center">
+    <div class="flex justify-center space-x-2 items-center">
       @for (type of computedPokemonSignal()?.types; track $index) {
       <pokedex-type-pokemon
         [type]="type"
