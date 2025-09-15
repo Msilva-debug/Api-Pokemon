@@ -2,11 +2,13 @@ import {
   Component,
   computed,
   effect,
+  ElementRef,
   inject,
   OnDestroy,
   OnInit,
   signal,
   Signal,
+  ViewChild,
 } from '@angular/core';
 import { CardPokemon } from '../../components/card-pokemon/card-pokemon';
 import { PokemonService } from '../../services/pokemon';
@@ -21,6 +23,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './pokedex.html',
 })
 export class Pokedex implements OnInit, OnDestroy {
+  @ViewChild('containerPokedex') private containerPokedex!: ElementRef;
   ngOnDestroy(): void {
     this.pokemonService.pokemons.set([]);
   }
@@ -30,7 +33,7 @@ export class Pokedex implements OnInit, OnDestroy {
   public informacionPaginador = computed(() =>
     this.pokemonService.informacionPaginador()
   );
-  public informacionPaginadorPokedex = <InformacionPaginador>({
+  public informacionPaginadorPokedex = <InformacionPaginador>{
     inicio: 10,
     final: 10,
     total: 10,
@@ -39,11 +42,13 @@ export class Pokedex implements OnInit, OnDestroy {
     anteriorUrl: '',
     siguienteUrl: '',
     actualUrl: 'https://pokeapi.co/api/v2/pokemon/?limit=21&offset=0',
-  });
+  };
   ngOnInit(): void {
     this.routes.paramMap.subscribe((params) => {
       if (params.get('path')) {
-        this.pokemonService.nombreCategoria.set(params.get('path')?.toLowerCase()!);
+        this.pokemonService.nombreCategoria.set(
+          params.get('path')?.toLowerCase()!
+        );
         this.pokemonService.isCategoria.set(true);
         this.getPokemonListCategoria();
         return;
@@ -63,5 +68,9 @@ export class Pokedex implements OnInit, OnDestroy {
 
   cambiarPagina = (accion: string) => {
     this.pokemonService.cambiarPagina(accion);
+    this.containerPokedex.nativeElement.scrollIntoView({
+      behavior: 'smooth',
+      top: 0,
+    });
   };
 }
