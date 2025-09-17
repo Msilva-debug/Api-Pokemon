@@ -7,4 +7,5 @@ export interface InformacionPaginador {
   anteriorUrl?: string;
   actualUrl?: string;
   siguienteUrl?: string;
+  cantidadRegistros?: number;
 }

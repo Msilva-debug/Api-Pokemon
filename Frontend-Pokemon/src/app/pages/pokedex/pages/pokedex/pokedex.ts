@@ -3,6 +3,7 @@ import {
   computed,
   effect,
   ElementRef,
+  HostListener,
   inject,
   OnDestroy,
   OnInit,
@@ -12,18 +13,19 @@ import {
 } from '@angular/core';
 import { CardPokemon } from '../../components/card-pokemon/card-pokemon';
 import { PokemonService } from '../../services/pokemon';
-import { CommonModule } from '@angular/common';
+import { CommonModule, ViewportScroller } from '@angular/common';
 import { Paginator } from '../../../../shared/components/paginator/paginator';
 import { InformacionPaginador } from '../../../../shared/components/interfaces/Paginador';
 import { Pokemon } from '../../interfaces/pokemon';
 import { ActivatedRoute } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   imports: [CardPokemon, CommonModule, Paginator],
   templateUrl: './pokedex.html',
 })
 export class Pokedex implements OnInit, OnDestroy {
-  @ViewChild('containerPokedex') private containerPokedex!: ElementRef;
+  private viewportScroller = inject(ViewportScroller);
   ngOnDestroy(): void {
     this.pokemonService.pokemons.set([]);
   }
@@ -38,12 +40,16 @@ export class Pokedex implements OnInit, OnDestroy {
     final: 10,
     total: 10,
     offset: 0,
-    limit: 21,
+    limit: 24,
     anteriorUrl: '',
     siguienteUrl: '',
-    actualUrl: 'https://pokeapi.co/api/v2/pokemon/?limit=21&offset=0',
+    actualUrl: '',
   };
   ngOnInit(): void {
+    this.cambiarVariable(window.innerWidth);
+  }
+
+  consultPokemons() {
     this.routes.paramMap.subscribe((params) => {
       if (params.get('path')) {
         this.pokemonService.nombreCategoria.set(
@@ -59,6 +65,22 @@ export class Pokedex implements OnInit, OnDestroy {
       this.getPokemonList();
     });
   }
+
+  cambiarVariable(width: number) {
+    const rangos = [
+      { min: 1867, max: 1920, limit: 24 },
+      { min: 1656, max: 1866, limit: 21 },
+      { min: 1440, max: 1655, limit: 18 },
+      { min: 1224, max: 1439, limit: 15 },
+      { min: 1008, max: 1223, limit: 12 },
+      { min: 0, max: 1007, limit: 9 },
+    ];
+    const rango = rangos.find((r) => width >= r.min && width <= r.max);
+
+    this.pokemonService.limit.set(rango ? rango.limit : 24);
+
+    this.consultPokemons();
+  }
   getPokemonList = () => {
     this.pokemonService.getPokemonList();
   };
@@ -68,9 +90,6 @@ export class Pokedex implements OnInit, OnDestroy {
 
   cambiarPagina = (accion: string) => {
     this.pokemonService.cambiarPagina(accion);
-    this.containerPokedex.nativeElement.scrollIntoView({
-      behavior: 'smooth',
-      top: 0,
-    });
+    this.viewportScroller.scrollToPosition([0, 0]);
   };
 }

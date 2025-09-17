@@ -1,7 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 @import "tailwindcss";
 @import "tailwindcss-primeui";
-@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
-
 @theme {
   --color-primary: #ff1c1c;
   --color-secondary: #0070f3;

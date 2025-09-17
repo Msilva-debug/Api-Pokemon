@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import {
   Name,
   Pokemon,
@@ -19,32 +19,25 @@ import { Router } from '@angular/router';
 export class PokemonService {
   private http = inject(HttpClient);
   private router = inject(Router);
-
+  private urlApi = 'https://pokeapi.co/api/v2/pokemon/';
   public informacionPaginador = signal<InformacionPaginador>({
-    inicio: 1,
-    final: 21,
+    inicio: 0,
+    final: 0,
     total: 0,
     offset: 0,
-    limit: 21,
+    limit: 0,
     anteriorUrl: '',
     siguienteUrl: '',
-    actualUrl: 'https://pokeapi.co/api/v2/pokemon/?limit=21&offset=0',
+    actualUrl: '',
   });
-  
 
   public pokemons = signal<Pokemon[]>([]);
   public isCategoria = signal(false);
+  public cantidadPokemons = computed(() => this.pokemons().length);
   public nombreCategoria = signal<string | null>('');
+  public limit = signal(24);
 
   constructor() {}
-
-  private chunkArray<T>(arr: T[], size: number): T[][] {
-    const res: T[][] = [];
-    for (let i = 0; i < arr.length; i += size) {
-      res.push(arr.slice(i, i + size));
-    }
-    return res;
-  }
 
   public setPokemonsCategoria(pokemons: Pokemon[]) {
     localStorage.setItem('pokemons', JSON.stringify(pokemons));
@@ -66,17 +59,25 @@ export class PokemonService {
 
   public getPokemonList() {
     this.isCategoria.set(false);
-    this.http
-      .get<ResponsePokemon>(this.informacionPaginador().actualUrl!)
-      .subscribe((response) => {
-        this.informacionPaginador.update((info) => ({
-          ...info,
-          siguienteUrl: response.next,
-          anteriorUrl: response.previous,
-          total: response.count,
-        }));
-        this.pokemons.set([...response.results]);
-      });
+    this.informacionPaginador.update((info) => ({
+      ...info,
+      limit: this.limit(),
+    }));
+
+    const url = `${this.urlApi}?limit=${
+      this.informacionPaginador().limit
+    }&offset=${this.informacionPaginador().offset}`;
+    this.http.get<ResponsePokemon>(url).subscribe((response) => {
+      this.pokemons.set([...response.results]);
+
+      this.informacionPaginador.update((info) => ({
+        ...info,
+        siguienteUrl: response.next,
+        anteriorUrl: response.previous,
+        total: response.count,
+        cantidadRegistros: this.cantidadPokemons(),
+      }));
+    });
   }
 
   public getPokemonListCategoria() {
@@ -86,6 +87,10 @@ export class PokemonService {
       this.pokemons.set([]);
       return;
     }
+    this.informacionPaginador.update((info) => ({
+      ...info,
+      limit: this.limit(),
+    }));
     this.setPokemons(data);
   }
 
@@ -100,6 +105,9 @@ export class PokemonService {
     const anteriorOffset = Math.max(offset - limit, 0);
     const siguienteOffset = Math.min(offset + limit, total);
 
+    const pagina = allPokemons.slice(offset, offset + limit);
+    this.pokemons.set(pagina);
+
     this.informacionPaginador.update((prev) => ({
       ...prev,
       total,
@@ -109,10 +117,8 @@ export class PokemonService {
       siguienteUrl:
         siguienteOffset > offset ? `categoria:${siguienteOffset}` : '',
       actualUrl: `categoria:${offset}`,
+      cantidadRegistros: this.cantidadPokemons(),
     }));
-
-    const pagina = allPokemons.slice(offset, offset + limit);
-    this.pokemons.set(pagina);
   }
   public cambiarPagina(accion: string) {
     if (this.isCategoria()) {
