@@ -30,6 +30,15 @@ export class Pokedex implements OnInit, OnDestroy {
     this.pokemonService.pokemons.set([]);
   }
   public pokemonService = inject(PokemonService);
+
+  private rangos = [
+    { min: 1867, max: 1920, limit: 24 },
+    { min: 1656, max: 1866, limit: 21 },
+    { min: 1440, max: 1655, limit: 18 },
+    { min: 1224, max: 1439, limit: 15 },
+    { min: 1008, max: 1223, limit: 12 },
+    { min: 0, max: 1007, limit: 9 },
+  ];
   public pokemons = computed(() => this.pokemonService.pokemons());
   private routes = inject(ActivatedRoute);
   public informacionPaginador = computed(() =>
@@ -67,15 +76,7 @@ export class Pokedex implements OnInit, OnDestroy {
   }
 
   cambiarVariable(width: number) {
-    const rangos = [
-      { min: 1867, max: 1920, limit: 24 },
-      { min: 1656, max: 1866, limit: 21 },
-      { min: 1440, max: 1655, limit: 18 },
-      { min: 1224, max: 1439, limit: 15 },
-      { min: 1008, max: 1223, limit: 12 },
-      { min: 0, max: 1007, limit: 9 },
-    ];
-    const rango = rangos.find((r) => width >= r.min && width <= r.max);
+    const rango = this.rangos.find((r) => width >= r.min && width <= r.max);
 
     this.pokemonService.limit.set(rango ? rango.limit : 24);
     this.informacionPaginadorPokedex.actualUrl = `https://pokeapi.co/api/v2/pokemon/?limit=${rango ? rango.limit : 24}?&offset=0`;
