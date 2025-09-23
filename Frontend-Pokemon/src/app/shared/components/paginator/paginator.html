@@ -1,12 +1,12 @@
 <div class="flex flex-col md:flex-row  items-center justify-between p-4 border-t border-gray-700 ">
-  <span class="text-center md:flex-col text-accent text-sm">
+  <span class="text-center md:flex-col text-yellowpokeball text-sm">
     {{ `Mostrando ${informacion.cantidadRegistros} de ${informacion.total} resultados` }}</span
   >
   <div class="flex flex-row max-[440px]:flex-col flex gap-2">
     <button
       [disabled]="!informacion.anteriorUrl"
       type="button"
-      class="px-3 py-1 rounded bg-primary text-accent hover:bg-gray-600 cursor-pointer"
+      class="px-3 py-1 rounded bg-blackpokeball text-yellowpokeball hover:bg-hover cursor-pointer"
       (click)="cambiarPagina.emit('anterior')"
     >
       Anterior
@@ -14,7 +14,7 @@
     <button
       type="button"
       [disabled]="!informacion.siguienteUrl"
-      class="px-3 py-1 rounded bg-primary text-accent hover:bg-gray-600 cursor-pointer"
+      class="px-3 py-1 rounded bg-blackpokeball text-yellowpokeball hover:bg-hover cursor-pointer"
       (click)="cambiarPagina.emit('siguiente')"
     >
       Siguiente

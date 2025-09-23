@@ -2,10 +2,10 @@
 @import "tailwindcss";
 @import "tailwindcss-primeui";
 @theme {
-  --color-primary: #ff1c1c;
-  --color-secondary: #0070f3;
-  --color-accent: #ffde00;
-  --color-dark: #2e2e2e;
+  --color-blackpokeball: #1C1C1C;
+  --color-yellowpokeball: #ffde00;
+  --color-hover: #B22222;
+  --color-cards: #4A4A4A;
 }
 
 
