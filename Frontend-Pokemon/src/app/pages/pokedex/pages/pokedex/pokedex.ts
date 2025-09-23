@@ -78,7 +78,7 @@ export class Pokedex implements OnInit, OnDestroy {
     const rango = rangos.find((r) => width >= r.min && width <= r.max);
 
     this.pokemonService.limit.set(rango ? rango.limit : 24);
-
+    this.informacionPaginadorPokedex.actualUrl = `https://pokeapi.co/api/v2/pokemon/?limit=${rango ? rango.limit : 24}?&offset=0`;
     this.consultPokemons();
   }
   getPokemonList = () => {

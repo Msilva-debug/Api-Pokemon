@@ -59,15 +59,8 @@ export class PokemonService {
 
   public getPokemonList() {
     this.isCategoria.set(false);
-    this.informacionPaginador.update((info) => ({
-      ...info,
-      limit: this.limit(),
-    }));
 
-    const url = `${this.urlApi}?limit=${
-      this.informacionPaginador().limit
-    }&offset=${this.informacionPaginador().offset}`;
-    this.http.get<ResponsePokemon>(url).subscribe((response) => {
+    this.http.get<ResponsePokemon>(this.informacionPaginador().actualUrl!).subscribe((response) => {
       this.pokemons.set([...response.results]);
 
       this.informacionPaginador.update((info) => ({
