@@ -7,14 +7,14 @@ import {
 import { CommonModule, JsonPipe } from '@angular/common';
 import { PokemonService } from '../../services/pokemon';
 import { map, of, switchMap } from 'rxjs';
-import { PipeColorNamePipe } from '../../pipe/pipe-color-name-pipe';
 import { PipeIconTypePokemonPipe } from '../../pipe/pipe-icon-type-pokemon-pipe';
 import { TypePokemon } from '../type-pokemon/type-pokemon';
 import { ImagePokemon } from '../image-pokemon/image-pokemon';
+import { PipeBorderColor } from '../../pipe/pipe-color-border-pipe';
 
 @Component({
   selector: 'pokedex-card-pokemon',
-  imports: [CommonModule, PipeColorNamePipe, TypePokemon, ImagePokemon],
+  imports: [CommonModule, TypePokemon, ImagePokemon, PipeBorderColor],
   templateUrl: './card-pokemon.html',
   styleUrl: './card-pokemon.css',
 })

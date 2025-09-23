@@ -7,7 +7,7 @@ import { RouterOutlet } from '@angular/router';
   imports: [Footer, Navbar, RouterOutlet],
   template: `<shared-navbar></shared-navbar>
 
-    <main class="flex flex-col min-h-screen bg-[#28639b]">
+    <main class="flex flex-col min-h-screen bg-[#2E2E2E]">
       <div class="flex-1 items-center">
         <router-outlet></router-outlet>
       </div>
