@@ -1,5 +1,8 @@
 <nav
-  class="relative bg-primary shadow-lg bg-[url('https://img.freepik.com/vector-gratis/fondo-mosaico-rojo_1164-1008.jpg')]"
+  class="relative bg-primary shadow-lg 
+  bg-[url('https://img.freepik.com/vector-gratis/fondo-mosaico-rojo_1164-1008.jpg')]
+  
+  "
 >
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
@@ -11,7 +14,7 @@
         />
       </div>
 
-      <div class="hidden sm:flex space-x-6">
+      <div class="max-[488px]:hidden space-x-6">
         @for (route of routes; track $index) {
         <a
           [routerLink]="route.path"
@@ -23,16 +26,38 @@
         }
       </div>
 
-      <button
-        type="button"
-        class="rounded-full bg-white p-2 border-2 border-dark shadow-md hover:scale-110 transition cursor-pointer"
-      >
-        <img
-          src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png"
-          alt="Pokeball"
-          class="h-6 w-6"
-        />
-      </button>
+      <div class="min-[488px]:hidden">
+        <button
+          type="button"
+          (click)="toggleMenu()"
+          popovertarget="desktop-menu-navbar"
+          class="rounded-full bg-white p-2 border-2 border-dark shadow-md hover:scale-110 transition cursor-pointer"
+        >
+          <img
+            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png"
+            alt="Pokeball"
+            class="h-6 w-6"
+          />
+        </button>
+
+        <div
+          [ngClass]="{ hidden: stateMenu() }"
+          id="desktop-menu-navbar"
+          class="min-h-min absolute w-100px bottom-0 rounded-lg top-16 right-13 bg-primary"
+        >
+          <div class="flex flex-col">
+            @for (route of routes; track $index) {
+            <a
+              [routerLink]="route.path"
+              routerLinkActive="bg-secondary/20 "
+              class="text-accent px-3 py-2 text-sm font-bold hover:bg-secondary/20 transition cursor-pointer"
+            >
+              {{ route.title }}
+            </a>
+            }
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
