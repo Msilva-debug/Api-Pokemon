@@ -13,7 +13,7 @@
         />
       </div>
 
-      <div class="max-[488px]:hidden space-x-6">
+      <div class="max-[444px]:flex space-x-6">
         @for (route of routes; track $index) {
         <a
           [routerLink]="route.path"
@@ -23,39 +23,6 @@
           {{ route.title }}
         </a>
         }
-      </div>
-
-      <div class="min-[488px]:hidden">
-        <button
-          type="button"
-          (click)="toggleMenu()"
-          popovertarget="desktop-menu-navbar"
-          class="rounded-full bg-white p-2 border-2 border-dark shadow-md hover:scale-110 transition cursor-pointer"
-        >
-          <img
-            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png"
-            alt="Pokeball"
-            class="h-6 w-6"
-          />
-        </button>
-
-        <div
-          [ngClass]="{ hidden: stateMenu() }"
-          id="desktop-menu-navbar"
-          class="min-h-min absolute w-100px bottom-0 rounded-lg top-16 right-13 bg-blackpokeball"
-        >
-          <div class="flex flex-col">
-            @for (route of routes; track $index) {
-            <a
-              [routerLink]="route.path"
-              routerLinkActive="bg-hover/20 "
-              class="text-yellowpokeball px-3 py-2 text-sm font-bold hover:bg-hover/20 transition cursor-pointer"
-            >
-              {{ route.title }}
-            </a>
-            }
-          </div>
-        </div>
       </div>
     </div>
   </div>
