@@ -44,16 +44,6 @@ export class Pokedex implements OnInit, OnDestroy {
   public informacionPaginador = computed(() =>
     this.pokemonService.informacionPaginador()
   );
-  public informacionPaginadorPokedex = <InformacionPaginador>{
-    inicio: 10,
-    final: 10,
-    total: 10,
-    offset: 0,
-    limit: 24,
-    anteriorUrl: '',
-    siguienteUrl: '',
-    actualUrl: '',
-  };
   ngOnInit(): void {
     this.cambiarVariable(window.innerWidth);
   }
@@ -68,9 +58,6 @@ export class Pokedex implements OnInit, OnDestroy {
         this.getPokemonListCategoria();
         return;
       }
-      this.pokemonService.informacionPaginador.set(
-        this.informacionPaginadorPokedex
-      );
       this.getPokemonList();
     });
   }
@@ -79,7 +66,16 @@ export class Pokedex implements OnInit, OnDestroy {
     const rango = this.rangos.find((r) => width >= r.min && width <= r.max);
 
     this.pokemonService.limit.set(rango ? rango.limit : 24);
-    this.informacionPaginadorPokedex.actualUrl = `https://pokeapi.co/api/v2/pokemon/?limit=${rango ? rango.limit : 24}?&offset=0`;
+    this.pokemonService.informacionPaginadorInicial({
+    inicio: 10,
+    final: 10,
+    total: 10,
+    offset: 0,
+    limit: rango ? rango.limit : 24,
+    anteriorUrl: '',
+    siguienteUrl: '',
+    actualUrl: '',
+  });
     this.consultPokemons();
   }
   getPokemonList = () => {

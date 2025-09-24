@@ -12,24 +12,16 @@ import {
 import { forkJoin, map, Observable, of } from 'rxjs';
 import { InformacionPaginador } from '../../../shared/components/interfaces/Paginador';
 import { Router } from '@angular/router';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PokemonService {
   private http = inject(HttpClient);
+  private environment = environment;
   private router = inject(Router);
-  private urlApi = 'https://pokeapi.co/api/v2/pokemon/';
-  public informacionPaginador = signal<InformacionPaginador>({
-    inicio: 0,
-    final: 0,
-    total: 0,
-    offset: 0,
-    limit: 0,
-    anteriorUrl: '',
-    siguienteUrl: '',
-    actualUrl: '',
-  });
+  public informacionPaginador = signal<InformacionPaginador>({} as InformacionPaginador);
 
   public pokemons = signal<Pokemon[]>([]);
   public isCategoria = signal(false);
@@ -38,7 +30,13 @@ export class PokemonService {
   public limit = signal(24);
 
   constructor() {}
-
+  public informacionPaginadorInicial = (info: InformacionPaginador) => {
+    this.informacionPaginador.set(info);
+    this.informacionPaginador.update((info) => ({
+      ...info,
+      actualUrl: `${this.environment.apiUrlPokemon}${this.environment.infoPokemons}?limit=${info.limit}?&offset=${info.offset}`,
+    }));
+  };
   public setPokemonsCategoria(pokemons: Pokemon[]) {
     localStorage.setItem('pokemons', JSON.stringify(pokemons));
 
@@ -60,17 +58,19 @@ export class PokemonService {
   public getPokemonList() {
     this.isCategoria.set(false);
 
-    this.http.get<ResponsePokemon>(this.informacionPaginador().actualUrl!).subscribe((response) => {
-      this.pokemons.set([...response.results]);
+    this.http
+      .get<ResponsePokemon>(this.informacionPaginador().actualUrl!)
+      .subscribe((response) => {
+        this.pokemons.set([...response.results]);
 
-      this.informacionPaginador.update((info) => ({
-        ...info,
-        siguienteUrl: response.next,
-        anteriorUrl: response.previous,
-        total: response.count,
-        cantidadRegistros: this.cantidadPokemons(),
-      }));
-    });
+        this.informacionPaginador.update((info) => ({
+          ...info,
+          siguienteUrl: response.next,
+          anteriorUrl: response.previous,
+          total: response.count,
+          cantidadRegistros: this.cantidadPokemons(),
+        }));
+      });
   }
 
   public getPokemonListCategoria() {
