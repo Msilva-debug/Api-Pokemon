@@ -8,14 +8,14 @@
   <pokedex-image-pokemon [img]="computedPokemonSignal()" />
 
   <div class="flex flex-col p-4 text-center gap-2">
-    <h2 class="text-sm d text-white">
+    <h2 class="text-[10px] sm:text-sm text-sm d text-white">
       {{ computedPokemonSignal()?.name | titlecase }}
     </h2>
-    <div class="flex justify-center space-x-2 items-center">
+    <div class="flex-col sm:flex-row  gap-2 flex justify-center space-x-2 items-center ">
       @for (type of computedPokemonSignal()?.types; track $index) {
       <pokedex-type-pokemon
         [type]="type"
-        class="opacity-0 animate-domino"
+        class="opacity-0 animate-domino m-0"
         [ngStyle]="{
           animationDelay: $index * 200 + 'ms'
         }"
