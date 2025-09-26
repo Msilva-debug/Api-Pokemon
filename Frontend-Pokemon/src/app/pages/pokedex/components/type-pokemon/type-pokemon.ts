@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   selector: 'pokedex-type-pokemon',
   imports: [PipeColorTypePokemonPipe, PipeIconTypePokemonPipe, CommonModule],
   template: ` <p
-    class=" inset-shadow-sm rounded-md text-[9px] p-[5px]"
+    class=" inset-shadow-sm rounded-md  p-[5px] text-[8px] md:text-[9px]"
     [ngClass]="type | pipeColorTypePokemon"
   >
     {{ type }}
