@@ -1,6 +1,8 @@
-<div class="px-2 sm:px-10 lg:px-20 py-5">
+<div class="max-[420px]:px-0 px-2 md:px-10 lg:px-20 py-5">
   <div 
-    class="h-full h-40 grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 pt-5"
+    class="
+    max-[420px]:grid-cols-[repeat(auto-fit,minmax(190px,1fr))]
+    h-full w-full grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-1 md:gap-4 pt-5"
   >
     @for (pokemon of pokemons(); track $index) {
     <pokedex-card-pokemon [pokemon]="pokemon"></pokedex-card-pokemon>
