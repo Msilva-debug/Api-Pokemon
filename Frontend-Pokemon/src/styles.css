@@ -13,3 +13,7 @@
   font-family: "Press Start 2P", system-ui;
   font-weight: 500;
 }
+
+body{
+  background-color: var(--color-blackpokeball);
+}
