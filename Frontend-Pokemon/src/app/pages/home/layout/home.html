@@ -1,7 +1,42 @@
 <div class="relative w-full h-screen">
-  <div class="absolute inset-0 bg-cover bg-center opacity-60 img"></div>
-  
+  <div class="absolute inset-0 bg-cover bg-center img"></div>
+
   <div class="relative z-10 flex items-center justify-center h-full">
-    <p class="text-white text-2xl font-bold">home works!</p>
+    <div class="flex gap-3">
+      <button
+        class="px-4 py-2 rounded-lg bg-primary text-secondary hover:bg-hover"
+        (click)="globalService.theme.set('pokeball')"
+      >
+        Poké Ball
+      </button>
+
+      <button
+        class="px-4 py-2 rounded-lg bg-primary text-secondary hover:bg-hover"
+        (click)="globalService.theme.set('superball')"
+      >
+        Super Ball
+      </button>
+
+      <button
+        class="px-4 py-2 rounded-lg bg-primary text-secondary hover:bg-hover"
+        (click)="globalService.theme.set('ultraball')"
+      >
+        Ultra Ball
+      </button>
+
+      <button
+        class="px-4 py-2 rounded-lg bg-primary text-secondary hover:bg-hover"
+        (click)="globalService.theme.set('masterball')"
+      >
+        Master Ball
+      </button>
+
+      <button
+        class="px-4 py-2 rounded-lg bg-primary text-secondary hover:bg-hover"
+        (click)="globalService.theme.set('safariball')"
+      >
+        Safari Ball
+      </button>
+    </div>
   </div>
 </div>

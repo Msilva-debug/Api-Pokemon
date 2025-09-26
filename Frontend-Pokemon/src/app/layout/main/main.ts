@@ -7,13 +7,12 @@ import { RouterOutlet } from '@angular/router';
   imports: [Footer, Navbar, RouterOutlet],
   template: `<shared-navbar></shared-navbar>
 
-    <main class="flex flex-col min-h-screen bg-[#2E2E2E]">
-      <div class="flex-1 items-center">
+    <main class="flex flex-col min-h-screen">
+      <div class="flex-1 items-center bg-[#2E2E2E]">
         <router-outlet></router-outlet>
       </div>
-
-      <shared-footer class="mt-auto"></shared-footer>
-    </main> `,
+    </main>
+    <shared-footer class="mt-auto"></shared-footer> `,
   styles: ``,
 })
 export class Main {}

@@ -11,7 +11,6 @@ import {
 } from '../interfaces/pokemon';
 import { forkJoin, map, Observable, of } from 'rxjs';
 import { InformacionPaginador } from '../../../shared/components/interfaces/Paginador';
-import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -20,7 +19,6 @@ import { environment } from '../../../../environments/environment';
 export class PokemonService {
   private http = inject(HttpClient);
   private environment = environment;
-  private router = inject(Router);
   public informacionPaginador = signal<InformacionPaginador>({} as InformacionPaginador);
 
   public pokemons = signal<Pokemon[]>([]);

@@ -1,19 +1,54 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 @import "tailwindcss";
 @import "tailwindcss-primeui";
+
 @theme {
-  --color-blackpokeball: #1C1C1C;
-  --color-yellowpokeball: #ffde00;
-  --color-hover: #B22222;
-  --color-cards: #4A4A4A;
+  --color-primary: #1c1c1c;
+  --color-secondary: #ffde00;
+  --color-hover: #b22222;
+  --color-cards: #4a4a4a;
 }
 
+.theme-pokeball {
+  --color-primary: #ee1515;
+  --color-secondary: #f0f0f0;
+  --color-hover: #b22222;
+  --color-cards: #4a4a4a;
+}
+
+.theme-superball {
+  --color-primary: #2a5daa;
+  --color-secondary: #e3350d;
+  --color-hover: #1e3f75;
+  --color-cards: #4a4a4a;
+}
+
+.theme-ultraball {
+  --color-primary: #1c1c1c;
+  --color-secondary: #ffde00;
+  --color-hover: #b22222;
+  --color-cards: #4a4a4a;
+}
+
+.theme-masterball {
+  --color-primary: #8b2faf;
+  --color-secondary: #e858a6;
+  --color-hover: #5a1e72;
+  --color-cards: #4a4a4a;
+}
+
+.theme-safariball {
+  --color-primary: #3b9d3b;
+  --color-secondary: #f5f5f5;
+  --color-hover: #2c6f2c;
+  --color-cards: #4a4a4a;
+}
 
 * {
   font-family: "Press Start 2P", system-ui;
   font-weight: 500;
 }
 
-body{
-  background-color: var(--color-blackpokeball);
+body {
+  background-color: var(--color-primary);
 }

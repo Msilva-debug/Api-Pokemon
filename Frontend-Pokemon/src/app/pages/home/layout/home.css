@@ -1,4 +1,4 @@
 .img {
   background-image: url(../../../../assets/pokemonrojo.gif);
-  
+  filter: brightness(0.8);
 }
