@@ -1,0 +1,12 @@
+<div
+  class="w-60 h-40 items-center flex justify-center relative cursor-pointer group rounded-2xl shadow-lg bg-white/10 backdrop-blur-md p-4 hover:scale-105 transition-transform duration-300"
+  (click)="globalService.theme.set(infoPokeball['theme'])"
+>
+  <img
+    class="absolute opacity-50 object-contain mx-auto drop-shadow-md group-hover:scale-110 transition-transform duration-300"
+    [src]="infoPokeball['url']"
+  />
+  <h3 class="absolute z-11 text-center text-lg font-semibold text-white">
+    {{ infoPokeball["description"] | titlecase }}
+  </h3>
+</div>

@@ -3,42 +3,9 @@
 
   <div class="relative z-10 flex items-center justify-center h-full">
     <div class="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-6">
-      
-      <div 
-        class="cursor-pointer group rounded-2xl shadow-lg bg-white/10 backdrop-blur-md border border-gray-200 p-4 hover:scale-105 transition-transform duration-300"
-        (click)="globalService.theme.set('pokeball')">
-        <img src="assets/pokeballs/pokeball.png" alt="Poké Ball" class="w-24 h-24 mx-auto drop-shadow-md group-hover:scale-110 transition-transform duration-300">
-        <h3 class="mt-2 text-center text-lg font-semibold text-white">Poké Ball</h3>
-      </div>
-
-      <div 
-        class="cursor-pointer group rounded-2xl shadow-lg bg-white/10 backdrop-blur-md border border-gray-200 p-4 hover:scale-105 transition-transform duration-300"
-        (click)="globalService.theme.set('superball')">
-        <img src="/assets/superball.png" alt="Super Ball" class=" w-24 h-24 mx-auto drop-shadow-md group-hover:scale-110 transition-transform duration-300">
-        <h3 class="mt-2 text-center text-lg font-semibold text-white">Super Ball</h3>
-      </div>
-
-      <div 
-        class="cursor-pointer group rounded-2xl shadow-lg bg-white/10 backdrop-blur-md border border-gray-200 p-4 hover:scale-105 transition-transform duration-300"
-        (click)="globalService.theme.set('ultraball')">
-        <img src="assets/pokeballs/ultraball.png" alt="Ultra Ball" class="w-24 h-24 mx-auto drop-shadow-md group-hover:scale-110 transition-transform duration-300">
-        <h3 class="mt-2 text-center text-lg font-semibold text-white">Ultra Ball</h3>
-      </div>
-
-      <div 
-        class="cursor-pointer group rounded-2xl shadow-lg bg-white/10 backdrop-blur-md border border-gray-200 p-4 hover:scale-105 transition-transform duration-300"
-        (click)="globalService.theme.set('masterball')">
-        <img src="assets/pokeballs/masterball.png" alt="Master Ball" class="w-24 h-24 mx-auto drop-shadow-md group-hover:scale-110 transition-transform duration-300">
-        <h3 class="mt-2 text-center text-lg font-semibold text-white">Master Ball</h3>
-      </div>
-
-      <div 
-        class="cursor-pointer group rounded-2xl shadow-lg bg-white/10 backdrop-blur-md border border-gray-200 p-4 hover:scale-105 transition-transform duration-300"
-        (click)="globalService.theme.set('safariball')">
-        <img src="assets/pokeballs/safariball.png" alt="Safari Ball" class="w-24 h-24 mx-auto drop-shadow-md group-hover:scale-110 transition-transform duration-300">
-        <h3 class="mt-2 text-center text-lg font-semibold text-white">Safari Ball</h3>
-      </div>
-
+      @for (infoPokeball of infoPokeballs; track $index) {
+      <home-card-pokeball [infoPokeball]="infoPokeball" />
+      }
     </div>
   </div>
 </div>
