@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CategoriaService } from './pages/categorias/services/categorias';
+import { ServicePokemon } from './shared/services/service-pokemon';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import { CategoriaService } from './pages/categorias/services/categorias';
 export class App implements OnInit {
   protected readonly title = signal('Poke-Api');
   private categoriaService = inject(CategoriaService);
+  public globalService = inject(ServicePokemon);
   ngOnInit(): void {
     this.categoriaService.getCategoriasList();
   }
