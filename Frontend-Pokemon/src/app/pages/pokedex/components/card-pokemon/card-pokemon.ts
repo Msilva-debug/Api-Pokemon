@@ -29,8 +29,8 @@ export class CardPokemon {
           const basicInfo = {
             name: informacion.name,
             image: informacion.sprites.front_default,
+            id: informacion.id
           };
-
           return this.pokemonService
             .getForkJoinCard(informacion)
             .pipe(map((respuesta) => ({ ...basicInfo, ...respuesta })));

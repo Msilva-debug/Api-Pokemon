@@ -1,8 +1,12 @@
-<div class="w-auto h-30 md:h-48 flex items-center justify-center">
+<div class="relative w-auto h-30 md:h-48 flex items-center justify-center">
+  <h2 class="absolute opacity-50 text-[20px] md:text-md text-white top-0 left-0">
+    N°{{ img?.id }}
+  </h2>
+
   <img
     [src]="img?.image"
     alt="pokemon"
-    class="w-full h-full object-contain transition-all duration-700"
+    class="z-1 w-full h-full object-contain transition-all duration-700"
     [class.brightness-0]="!isLoaded"
     [class.blur-lg]="!isLoaded"
     (load)="onImageReady()"
