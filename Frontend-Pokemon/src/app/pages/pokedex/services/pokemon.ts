@@ -19,7 +19,9 @@ import { environment } from '../../../../environments/environment';
 export class PokemonService {
   private http = inject(HttpClient);
   private environment = environment;
-  public informacionPaginador = signal<InformacionPaginador>({} as InformacionPaginador);
+  public informacionPaginador = signal<InformacionPaginador>(
+    {} as InformacionPaginador
+  );
 
   public pokemons = signal<Pokemon[]>([]);
   public isCategoria = signal(false);
@@ -35,23 +37,6 @@ export class PokemonService {
       actualUrl: `${this.environment.apiUrlPokemon}${this.environment.infoPokemons}?limit=${info.limit}?&offset=${info.offset}`,
     }));
   };
-  public setPokemonsCategoria(pokemons: Pokemon[]) {
-    localStorage.setItem('pokemons', JSON.stringify(pokemons));
-
-    this.isCategoria.set(true);
-    this.informacionPaginador.set({
-      inicio: 0,
-      final: 0,
-      total: pokemons.length,
-      offset: 0,
-      limit: 21,
-      anteriorUrl: '',
-      siguienteUrl: '',
-      actualUrl: 'categoria:0',
-    });
-
-    this.getPokemonListCategoria();
-  }
 
   public getPokemonList() {
     this.isCategoria.set(false);
@@ -73,8 +58,14 @@ export class PokemonService {
 
   public getPokemonListCategoria() {
     const nombreCategoria = this.nombreCategoria();
-    const data = localStorage.getItem(nombreCategoria!);
+    const data = localStorage.getItem('pokemonsCategoria');
+
     if (!data) {
+      this.pokemons.set([]);
+      return;
+    }
+    const pokemons = JSON.parse(data)[nombreCategoria!];
+    if (!pokemons) {
       this.pokemons.set([]);
       return;
     }
@@ -82,11 +73,11 @@ export class PokemonService {
       ...info,
       limit: this.limit(),
     }));
-    this.setPokemons(data);
+    this.setPokemons(pokemons);
   }
 
   public setPokemons(data: any) {
-    const allPokemons: Pokemon[] = JSON.parse(data);
+    const allPokemons: Pokemon[] = data;
 
     const info = this.informacionPaginador();
     const offset = info.offset;

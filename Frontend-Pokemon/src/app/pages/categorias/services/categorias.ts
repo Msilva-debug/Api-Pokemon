@@ -6,7 +6,7 @@ import {
   ResponseCategoriaById,
   ResponseCategorias,
 } from '../interfaces/categorias';
-import { filter, map, Observable, tap } from 'rxjs';
+import { concatMap, filter, from, map, Observable, tap, toArray } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CategoriaService {
@@ -15,10 +15,6 @@ export class CategoriaService {
   private categorias = signal<ICategorias[]>([]);
   private categoriasInfo = signal<ICardCategoria[]>([]);
   public computedCategoriasInfo = computed(() => this.categoriasInfo());
-  public computedCategorias = computed(() => this.categorias());
-  private effectPokemonsByCategoria = effect(() => {
-    if (this.computedCategorias()) this.getPokemonsByCategoria();
-  });
 
   public getCategoriasList = () => {
     this.http
@@ -28,15 +24,20 @@ export class CategoriaService {
           return response.results;
         })
       )
-      .subscribe((response) => this.categorias.set(response));
+      .subscribe((response) => {
+        this.categorias.set(response);
+        this.getPokemonsByCategoria();
+      });
   };
 
   public getPokemonsByCategoria() {
-    this.categorias()
-      .filter((categoria) => !!categoria)
-      .forEach((categoria) => {
-        this.getCategoriaUrl(categoria.url)
-          .pipe(
+    type diccionario = Record<string, object>;
+    let pokemons: diccionario = {};
+
+    from(this.categorias())
+      .pipe(
+        concatMap((categoria) =>
+          this.getCategoriaUrl(categoria.url).pipe(
             filter((response) => {
               return (
                 response.sprites?.['generation-viii']?.['sword-shield']
@@ -51,26 +52,21 @@ export class CategoriaService {
                   response.sprites?.['generation-viii']?.['sword-shield']
                     ?.name_icon,
               } as ICardCategoria;
+            }),
+            tap((response) => {
+              pokemons[response.name!.name.toLocaleLowerCase()] =
+                response.pokemons!;
             })
           )
-          .subscribe((response) => {
-            if (!response) return;
-            if (
-              localStorage.getItem(
-                JSON.stringify(response.name?.name.toLocaleLowerCase())
-              )
-            )
-              return;
-            localStorage.setItem(
-              response.name!.name.toLocaleLowerCase().trim(),
-              JSON.stringify(response.pokemons)
-            );
-            this.categoriasInfo.update((categoria) => {
-              if (!this.categoriasInfo()) return [response];
-
-              return [...categoria, response];
-            });
-          });
+        ),
+        toArray()
+      )
+      .subscribe({
+        next: (response) => {
+          localStorage.setItem('pokemonsCategoria', JSON.stringify(pokemons));
+          this.categoriasInfo.set(response);
+        },
+        error: (err) => console.error(err),
       });
   }
 

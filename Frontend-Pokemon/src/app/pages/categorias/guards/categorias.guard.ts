@@ -11,6 +11,8 @@ export const CategoriasGuard: CanActivateFn = (route, state) => {
 
 class categorias {
   public static validateLocalStorage(path: string): boolean {
-    return localStorage.getItem(path.toLocaleLowerCase()) !== null;
+    const categorias = localStorage.getItem('pokemonsCategoria');
+    if (!categorias) return !!categorias;
+    return JSON.parse(categorias)[path.toLocaleLowerCase()] !== null;
   }
 }
