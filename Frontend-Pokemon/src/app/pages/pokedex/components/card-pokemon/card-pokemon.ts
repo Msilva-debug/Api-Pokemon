@@ -1,4 +1,12 @@
-import { Component, computed, effect, inject, Input, input, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  Input,
+  input,
+  signal,
+} from '@angular/core';
 import {
   Pokemon,
   PokemonCard,
@@ -11,6 +19,7 @@ import { PipeIconTypePokemonPipe } from '../../pipe/pipe-icon-type-pokemon-pipe'
 import { TypePokemon } from '../type-pokemon/type-pokemon';
 import { ImagePokemon } from '../image-pokemon/image-pokemon';
 import { PipeBorderColor } from '../../pipe/pipe-color-border-pipe';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'pokedex-card-pokemon',
@@ -19,6 +28,7 @@ import { PipeBorderColor } from '../../pipe/pipe-color-border-pipe';
   styleUrl: './card-pokemon.css',
 })
 export class CardPokemon {
+  private router = inject(Router);
   @Input()
   set pokemon(pokemon: Pokemon) {
     if (!pokemon?.url) return;
@@ -29,7 +39,7 @@ export class CardPokemon {
           const basicInfo = {
             name: informacion.name,
             image: informacion.sprites.front_default,
-            id: informacion.id
+            id: informacion.id,
           };
           return this.pokemonService
             .getForkJoinCard(informacion)
@@ -43,7 +53,13 @@ export class CardPokemon {
   private pokemonService = inject(PokemonService);
 
   private pokemonSignal = signal<PokemonCard | null>(null);
-  public computedPokemonSignal = computed(() => this.pokemonSignal())
+  public computedPokemonSignal = computed(() => this.pokemonSignal());
 
-  public onPokemonClick = () => {};
+  public onPokemonClick = () => {
+    this.router.navigate([
+      'home',
+      'pokedex',
+      this.computedPokemonSignal()?.name?.toLowerCase(),
+    ]);
+  };
 }

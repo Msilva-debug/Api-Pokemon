@@ -8,6 +8,14 @@ export const routes: Routes = [
   },
 
   {
+    path: ':path',
+    loadComponent: () =>
+      import('./pages/info-pokemon/info-pokemon').then(
+        (c) => c.InfoPokemon
+      ),
+  },
+
+  {
     path: '**',
     redirectTo: 'notFound',
   },
