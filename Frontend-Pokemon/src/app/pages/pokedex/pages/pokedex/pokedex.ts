@@ -15,10 +15,7 @@ import { CardPokemon } from '../../components/card-pokemon/card-pokemon';
 import { PokemonService } from '../../services/pokemon';
 import { CommonModule, ViewportScroller } from '@angular/common';
 import { Paginator } from '../../../../shared/components/paginator/paginator';
-import { InformacionPaginador } from '../../../../shared/components/interfaces/Paginador';
-import { Pokemon } from '../../interfaces/pokemon';
 import { ActivatedRoute } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   imports: [CardPokemon, CommonModule, Paginator],
