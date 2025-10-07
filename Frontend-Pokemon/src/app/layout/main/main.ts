@@ -1,18 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Footer } from '../../shared/components/footer/footer';
 import { Navbar } from '../../shared/components/navbar/navbar';
 import { RouterOutlet } from '@angular/router';
+import { UtilService } from '../../core/services/util.services';
 
 @Component({
   imports: [Footer, Navbar, RouterOutlet],
   template: `<shared-navbar class="sticky top-0 w-full z-50"></shared-navbar>
 
-    <main class="flex flex-col min-h-screen">
+    <main class="flex flex-col min-h-screen h-full">
       <div class="flex-1 items-center bg-[#2E2E2E]">
-        <router-outlet></router-outlet>
+        <router-outlet (activate)="onRouteActivate()"></router-outlet>
       </div>
     </main>
     <shared-footer class="mt-auto"></shared-footer> `,
   styles: ``,
 })
-export class Main {}
+export class Main {
+  private scroll = inject(UtilService);
+  onRouteActivate = () => {
+    this.scroll.scrollInicio();
+  };
+}

@@ -16,16 +16,17 @@ import { PokemonService } from '../../services/pokemon';
 import { CommonModule, ViewportScroller } from '@angular/common';
 import { Paginator } from '../../../../shared/components/paginator/paginator';
 import { ActivatedRoute } from '@angular/router';
+import { UtilService } from '../../../../core/services/util.services';
 
 @Component({
   imports: [CardPokemon, CommonModule, Paginator],
   templateUrl: './pokedex.html',
 })
 export class Pokedex implements OnInit, OnDestroy {
-  private viewportScroller = inject(ViewportScroller);
   ngOnDestroy(): void {
     this.pokemonService.pokemons.set([]);
   }
+  public scroll = inject(UtilService);
   public pokemonService = inject(PokemonService);
 
   private rangos = [
@@ -42,6 +43,7 @@ export class Pokedex implements OnInit, OnDestroy {
     this.pokemonService.informacionPaginador()
   );
   ngOnInit(): void {
+    this.scroll.scrollInicio();
     this.cambiarVariable(window.innerWidth);
   }
 
@@ -64,15 +66,15 @@ export class Pokedex implements OnInit, OnDestroy {
 
     this.pokemonService.limit.set(rango ? rango.limit : 24);
     this.pokemonService.informacionPaginadorInicial({
-    inicio: 10,
-    final: 10,
-    total: 10,
-    offset: 0,
-    limit: rango ? rango.limit : 24,
-    anteriorUrl: '',
-    siguienteUrl: '',
-    actualUrl: '',
-  });
+      inicio: 10,
+      final: 10,
+      total: 10,
+      offset: 0,
+      limit: rango ? rango.limit : 24,
+      anteriorUrl: '',
+      siguienteUrl: '',
+      actualUrl: '',
+    });
     this.consultPokemons();
   }
   getPokemonList = () => {
@@ -84,6 +86,6 @@ export class Pokedex implements OnInit, OnDestroy {
 
   cambiarPagina = (accion: string) => {
     this.pokemonService.cambiarPagina(accion);
-    this.viewportScroller.scrollToPosition([0, 0]);
+    this.scroll.scrollInicio();
   };
 }
