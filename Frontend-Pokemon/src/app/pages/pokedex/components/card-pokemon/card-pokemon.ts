@@ -40,6 +40,7 @@ export class CardPokemon {
             name: informacion.name,
             image: informacion.sprites.front_default,
             id: informacion.id,
+            url: pokemon.url,
           };
           return this.pokemonService
             .getForkJoinCard(informacion)
@@ -52,14 +53,14 @@ export class CardPokemon {
   }
   private pokemonService = inject(PokemonService);
 
-  private pokemonSignal = signal<PokemonCard | null>(null);
-  public computedPokemonSignal = computed(() => this.pokemonSignal());
+  public pokemonSignal = signal<PokemonCard | null>(null);
 
   public onPokemonClick = () => {
+    this.pokemonService.pokemonClick.set(this.pokemonSignal());
     this.router.navigate([
       'home',
       'pokedex',
-      this.computedPokemonSignal()?.name?.toLowerCase(),
+      this.pokemonSignal()?.name?.toLowerCase(),
     ]);
   };
 }

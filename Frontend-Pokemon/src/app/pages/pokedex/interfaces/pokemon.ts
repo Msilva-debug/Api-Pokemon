@@ -37,6 +37,7 @@ export interface PokemonCard {
   color?: string;
   types?: string[];
   id?: number;
+  url?: string;
 }
 export interface ResponsePokemonById {
   id: number;

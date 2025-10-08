@@ -1,20 +1,19 @@
-@if (computedPokemonSignal()) {
+@if (pokemonSignal()) {
 <div
-  class="
-  max-[420px]:w-[190px]
-  w-auto
-  h-full bg-cards rounded-2xl hover:scale-105 transition cursor-pointer hover:shadow-[var(--card-shadow)] flex flex-col"
+  class="max-[420px]:w-[190px] w-auto h-full bg-cards rounded-2xl hover:scale-105 transition cursor-pointer hover:shadow-[var(--card-shadow)] flex flex-col"
   (click)="onPokemonClick()"
-  [style.--card-shadow]="computedPokemonSignal()?.types | pipeBorderColor"
+  [style.--card-shadow]="pokemonSignal()?.types | pipeBorderColor"
 >
-  <pokedex-image-pokemon [img]="computedPokemonSignal()" />
+  <pokedex-image-pokemon [img]="pokemonSignal()" />
 
-  <div class=" flex-1 flex flex-col p-4 text-center gap-2">
-    <h2 class="text-[10px] md:text-sm  text-white">
-      {{ computedPokemonSignal()?.name | titlecase }}
+  <div class="flex-1 flex flex-col p-4 text-center gap-2">
+    <h2 class="text-[10px] md:text-sm text-white">
+      {{ pokemonSignal()?.name | titlecase }}
     </h2>
-    <div class="flex-1 flex-col sm:flex-row  gap-2 flex justify-center space-x-2 items-center ">
-      @for (type of computedPokemonSignal()?.types; track $index) {
+    <div
+      class="flex-1 flex-col sm:flex-row gap-2 flex justify-center space-x-2 items-center"
+    >
+      @for (type of pokemonSignal()?.types; track $index) {
       <pokedex-type-pokemon
         [type]="type"
         class="opacity-0 animate-domino m-0"

@@ -3,13 +3,14 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import {
   Name,
   Pokemon,
+  PokemonCard,
   ResponsePokemon,
   ResponsePokemonById,
   ResponsePokemonSpecies,
   ResponseTypes,
   Types,
 } from '../interfaces/pokemon';
-import { forkJoin, map, Observable, of } from 'rxjs';
+import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { InformacionPaginador } from '../../../shared/components/interfaces/Paginador';
 import { environment } from '../../../../environments/environment';
 
@@ -22,7 +23,7 @@ export class PokemonService {
   public informacionPaginador = signal<InformacionPaginador>(
     {} as InformacionPaginador
   );
-
+  public pokemonClick = signal<PokemonCard | null>(null);
   public pokemons = signal<Pokemon[]>([]);
   public isCategoria = signal(false);
   public cantidadPokemons = computed(() => this.pokemons().length);
@@ -54,6 +55,34 @@ export class PokemonService {
           cantidadRegistros: this.cantidadPokemons(),
         }));
       });
+  }
+
+  public getInfoPokemonPorNombre(nombrePokemon: string) {
+    return forkJoin({
+      evolutions: this.getEvolutions(nombrePokemon),
+      info: this.getInfoPokemon(nombrePokemon),
+    });
+  }
+
+  public getEvolutions(nombrePokemon: string): Observable<any> {
+    return this.http
+      .get<any>(
+        `${this.environment.apiUrlPokemon}${this.environment.evolutions}/${nombrePokemon}`
+      )
+      .pipe(
+        switchMap((info) => {
+          return this.prueba(info['evolution_chain']['url']);
+        })
+      );
+  }
+
+  public prueba(url: string): Observable<any> {
+    return this.http.get<any>(`${url}`);
+  }
+  public getInfoPokemon(nombrePokemon: string): Observable<any> {
+    return this.http.get<ResponsePokemon>(
+      `${this.environment.apiUrlPokemon}${this.environment.infoPokemons}/${nombrePokemon}`
+    );
   }
 
   public getPokemonListCategoria() {
