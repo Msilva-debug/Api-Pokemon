@@ -71,12 +71,12 @@ export class PokemonService {
       )
       .pipe(
         switchMap((info) => {
-          return this.prueba(info['evolution_chain']['url']);
+          return this.evolutionChain(info['evolution_chain']['url']);
         })
       );
   }
 
-  public prueba(url: string): Observable<any> {
+  public evolutionChain(url: string): Observable<any> {
     return this.http.get<any>(`${url}`);
   }
   public getInfoPokemon(nombrePokemon: string): Observable<any> {
