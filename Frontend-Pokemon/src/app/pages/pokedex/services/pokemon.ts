@@ -10,7 +10,7 @@ import {
   ResponseTypes,
   Types,
 } from '../interfaces/pokemon';
-import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
+import { filter, forkJoin, map, Observable, of, switchMap, tap } from 'rxjs';
 import { InformacionPaginador } from '../../../shared/components/interfaces/Paginador';
 import { environment } from '../../../../environments/environment';
 
@@ -57,32 +57,34 @@ export class PokemonService {
       });
   }
 
-  public getInfoPokemonPorNombre(nombrePokemon: string) {
-    return forkJoin({
-      evolutions: this.getEvolutions(nombrePokemon),
-      info: this.getInfoPokemon(nombrePokemon),
-    });
-  }
-
-  public getEvolutions(nombrePokemon: string): Observable<any> {
-    return this.http
-      .get<any>(
-        `${this.environment.apiUrlPokemon}${this.environment.evolutions}/${nombrePokemon}`
-      )
-      .pipe(
-        switchMap((info) => {
-          return this.evolutionChain(info['evolution_chain']['url']);
-        })
-      );
-  }
-
   public evolutionChain(url: string): Observable<any> {
     return this.http.get<any>(`${url}`);
   }
   public getInfoPokemon(nombrePokemon: string): Observable<any> {
-    return this.http.get<ResponsePokemon>(
-      `${this.environment.apiUrlPokemon}${this.environment.infoPokemons}/${nombrePokemon}`
-    );
+    return this.http
+      .get(
+        `${this.environment.apiUrlPokemon}${this.environment.infoPokemons}/${nombrePokemon}`
+      )
+      .pipe(
+        switchMap((pokemonResp: any) => {
+          return this.http.get(pokemonResp['species']['url']).pipe(
+            map((p: any) => ({
+              ...p,
+              flavor_text_entries: p['flavor_text_entries'].filter(
+                (p: any) => p['language']['name'] === 'es'
+              ),
+            })),
+            switchMap((speciesResp: any) => {
+              return this.http.get<any>(speciesResp.evolution_chain.url).pipe(
+                map((evolutionResp) => ({
+                  especies: speciesResp,
+                  evolucion: evolutionResp,
+                }))
+              );
+            })
+          );
+        })
+      );
   }
 
   public getPokemonListCategoria() {
