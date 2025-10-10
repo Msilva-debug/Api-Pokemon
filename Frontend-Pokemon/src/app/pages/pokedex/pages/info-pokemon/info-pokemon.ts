@@ -18,8 +18,6 @@ export class InfoPokemon implements OnInit {
         filter((path): path is string => !!path),
         switchMap((path) => this.pokemonService.getInfoPokemon(path))
       )
-      .subscribe((responseFinal) => {
-        console.log(responseFinal);
-      });
+      .subscribe((responseFinal) => {});
   }
 }
